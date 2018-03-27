@@ -1,12 +1,18 @@
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat/webapps'
+)
+
 TOMCAT_SERVICE_NAME= attribute(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
   default: 'tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+# only_if do
+#   service(TOMCAT_SERVICE_NAME).installed?
+# end
 
 control "M-10.20" do
   title "10.20 use the logEffectiveWebXml and metadata-complete settings for
@@ -77,7 +83,11 @@ of false is used; If metadatacomplete not specified, the default value of false
 is used;\n"
 
   begin
-
-
-
+    
+    web_xml = command("ls #{TOMCAT_APP_DIR}/webapps/*/WEB-INF/web.xml").stdout.split.each do |web_file|
+      describe xml(web_file) do
+        its('web-app/attribute::metadata-complete') { should eq 'true' }
+      end
+    end
+  end
 end
