@@ -1,3 +1,13 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.20" do
   title "10.20 use the logEffectiveWebXml and metadata-complete settings for
 deploying applications in production (Scored)"
@@ -65,4 +75,9 @@ true
   tag "Default Value": "If logEffectiveWebXml not specified, the default value
 of false is used; If metadatacomplete not specified, the default value of false
 is used;\n"
+
+  begin
+
+
+
 end
