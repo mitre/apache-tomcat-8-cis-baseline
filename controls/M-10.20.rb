@@ -1,7 +1,7 @@
 TOMCAT_APP_DIR= attribute(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat/webapps'
+  default: '/var/lib/tomcat'
 )
 
 TOMCAT_SERVICE_NAME= attribute(
@@ -86,8 +86,13 @@ is used;"
 
     web_xml = command("ls #{TOMCAT_APP_DIR}/webapps/*/WEB-INF/web.xml").stdout.split.each do |web_file|
       describe xml(web_file) do
-        its('web-app/attribute::metadata-complete') { should eq 'true' }
+        its('web-app/attribute::metadata-complete') { should eq ['true'] }
       end
+    context_xml = command("ls #{TOMCAT_APP_DIR}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
+      describe xml(web_file) do
+        its('web-app/attribute::logEffectiveWebXml') { should eq ['true'] }
+      end
+    end
     end
   end
 end

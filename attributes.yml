@@ -10,7 +10,7 @@
 tomcat_home: '/usr/share/tomcat'
 
 # Description: Tomcat App Directory
-tomcat_app_dir: '/var/lib/tomcat/webapps'
+tomcat_app_dir: '/var/lib/tomcat'
 
 # Description: Tomcat library Directory
 tomcat_lib_dir: '/usr/share/java/tomcat'
