@@ -1,3 +1,19 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF= attribute(
+  'tomcat_conf',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.19" do
   title "10.19 Setting Security Lifecycle Listener (Scored)"
   desc  "The Security Lifecycle Listener performs a number of security checks
@@ -33,4 +49,12 @@ checkedOsUsers='alex,bob' minimumUmask='0007' />
   tag "Default Value": "The Security Lifecycle Listener is not enabled by
 default. For checkedOsUsers, If not\nspecified, the default value of root is
 used. For minimumUmask, if not specified, the default\nvalue of 0007 is used.\n"
+
+  begin
+    describe xml(TOMCAT_CONF) do
+      its('Server/Listener/attribute::className') { should include 'org.apache.catalina.security.SecurityListener' }
+      its('Server/Listener/attribute::checkedOsUsers') { should include 'root' }
+      its('Server/Listener/attribute::minimumUmask') { should cmp <= '0007' }
+    end
+  end
 end

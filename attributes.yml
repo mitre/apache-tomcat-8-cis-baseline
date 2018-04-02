@@ -32,3 +32,6 @@ tomcat_server_number: 'server.number=7.0.76.0'
 
 # Description: Server Built value
 tomcat_server_built: 'server.built=Oct 30 2017 10:21:55 UTC'
+
+# Description: Tomcat configuration file
+tomcat_conf: '/usr/share/tomcat/conf/server.xml'
