@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-1.1" do
   title "1.1 Remove extraneous files and directories (Scored)"
   desc  "The installation may provide example applications, documentation, and
@@ -41,4 +57,48 @@ $CATALINA_HOME/conf/Catalina/localhost/manager.xml
 "
   tag "Default Value": "Depending on your install method, default extraneous
 resources will vary.\n\n"
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/js-examples") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/servlet-example") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/webdav") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/tomcat-docs") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/balancer") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/ROOT/admin") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/webapps/examples") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/server/webapps/host-manager") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/server/webapps/manager") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/conf/Catalina/localhost/host-manager.xml") do
+    its('stdout.strip') { should eq '' }
+  end
+
+  describe command("ls -l #{TOMCAT_HOME}/conf/Catalina/localhost/manager.xml") do
+    its('stdout.strip') { should eq '' }
+  end
 end

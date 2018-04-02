@@ -23,3 +23,12 @@ tomcat_user: 'tomcat'
 
 # Description: Port of the tomcat instance
 tomcat_port: '8084'
+
+# Description: Server Info value
+tomcat_server_info: 'server.info=Apache Tomcat/7.0.76'
+
+# Description: Server Number value
+tomcat_server_number: 'server.number=7.0.76.0'
+
+# Description: Server Built value
+tomcat_server_built: 'server.built=Oct 30 2017 10:21:55 UTC'
