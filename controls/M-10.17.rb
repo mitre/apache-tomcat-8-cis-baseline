@@ -1,3 +1,19 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF= attribute(
+  'tomcat_conf',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.17" do
   title "10.17 Do not resolve hosts on logging valves (Scored)"
   desc  "Setting enableLookups to true on Connector requires a DNS look-up
@@ -19,4 +35,10 @@ or remove it.
 <Connector ... enableLookups='false' />
 "
   tag "Default Value": "By default, DNS lookups are disabled.\n"
+
+  begin
+    describe command("grep enableLookups #{TOMCAT_CONF}") do
+      its('stdout') { should eq '' }
+    end
+  end
 end

@@ -1,3 +1,25 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF= attribute(
+  'tomcat_conf',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.16" do
   title "10.16 Do not allow cross context requests (Scored)"
   desc  "Setting crossContext to true allows for an application to call
@@ -19,4 +41,15 @@ exist.
 <Context ... crossContext=”false” />
 "
   tag "Default Value": "By default, crossContext has a value of false.\n"
+
+  begin
+    describe.one do
+      describe command("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'crossContext'") do
+        its('stdout') { should eq ''}
+      end
+      describe command ("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'crossContext'") do
+        its('stdout') { should include 'crossContext="false"' }
+      end
+    end
+  end
 end

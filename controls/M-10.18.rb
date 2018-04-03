@@ -1,3 +1,19 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF= attribute(
+  'tomcat_conf',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.18" do
   title "10.18 Enable memory leak listener (Scored)"
   desc  "The JRE Memory Leak Prevention Listener provides work-arounds for
@@ -26,4 +42,10 @@ $CATALINA_HOME/conf/server.xml
 <Listener className='org.apache.catalina.core.JreMemoryLeakPreventionListener'
 />
 "
+
+  begin
+    describe xml(TOMCAT_CONF) do
+      its('Server/Listener/attribute::className') { should include 'org.apache.catalina.core.JreMemoryLeakPreventionListener' }
+    end
+  end
 end
