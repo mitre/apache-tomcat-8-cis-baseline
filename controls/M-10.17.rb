@@ -4,8 +4,8 @@ TOMCAT_SERVICE_NAME= attribute(
   default: 'tomcat'
 )
 
-TOMCAT_CONF= attribute(
-  'tomcat_conf',
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
   default: '/usr/share/tomcat/conf/server.xml'
 )
@@ -37,7 +37,7 @@ or remove it.
   tag "Default Value": "By default, DNS lookups are disabled.\n"
 
   begin
-    describe command("grep enableLookups #{TOMCAT_CONF}") do
+    describe command("grep enableLookups #{TOMCAT_CONF_SERVER}") do
       its('stdout') { should eq '' }
     end
   end

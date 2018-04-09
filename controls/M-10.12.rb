@@ -1,3 +1,31 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.12" do
   title "10.12 Force SSL for all applications (Scored)"
   desc  "Use the transport-guarantee attribute to ensure SSL protection when
@@ -22,4 +50,10 @@ CONFIDENTIAL.
 <user-data-constraint>
 "
   tag "Default Value": "By default, this configuration is not present.\n"
+
+  begin
+    describe xml(TOMCAT_CONF_WEB) do
+      its('web-app/security-constraint/user-data-constraint/transport-guarantee') { should eq ['CONFIDENTIAL'] }
+    end
+  end
 end

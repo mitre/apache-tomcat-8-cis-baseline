@@ -4,8 +4,8 @@ TOMCAT_SERVICE_NAME= attribute(
   default: 'tomcat'
 )
 
-TOMCAT_CONF= attribute(
-  'tomcat_conf',
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
   default: '/usr/share/tomcat/conf/server.xml'
 )
@@ -44,7 +44,7 @@ $CATALINA_HOME/conf/server.xml
 "
 
   begin
-    describe xml(TOMCAT_CONF) do
+    describe xml(TOMCAT_CONF_SERVER) do
       its('Server/Listener/attribute::className') { should include 'org.apache.catalina.core.JreMemoryLeakPreventionListener' }
     end
   end

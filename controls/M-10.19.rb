@@ -4,8 +4,8 @@ TOMCAT_SERVICE_NAME= attribute(
   default: 'tomcat'
 )
 
-TOMCAT_CONF= attribute(
-  'tomcat_conf',
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
   default: '/usr/share/tomcat/conf/server.xml'
 )
@@ -51,7 +51,7 @@ default. For checkedOsUsers, If not\nspecified, the default value of root is
 used. For minimumUmask, if not specified, the default\nvalue of 0007 is used.\n"
 
   begin
-    describe xml(TOMCAT_CONF) do
+    describe xml(TOMCAT_CONF_SERVER) do
       its('Server/Listener/attribute::className') { should include 'org.apache.catalina.security.SecurityListener' }
       its('Server/Listener/attribute::checkedOsUsers') { should include 'root' }
       its('Server/Listener/attribute::minimumUmask') { should cmp <= '0007' }

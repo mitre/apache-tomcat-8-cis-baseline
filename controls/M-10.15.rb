@@ -4,8 +4,8 @@ TOMCAT_SERVICE_NAME= attribute(
   default: 'tomcat'
 )
 
-TOMCAT_CONF= attribute(
-  'tomcat_conf',
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
   default: '/usr/share/tomcat/conf/server.xml'
 )
@@ -49,7 +49,7 @@ application:
         its('stdout') { should eq ''}
       end
       describe command ("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'privileged'") do
-        its('stdout') { should include 'privileged="false"' }
+        its('stdout') { should_not include 'privileged="true"' }
       end
     end
   end
