@@ -1,3 +1,31 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.7" do
   title "10.7 Turn off session facade recycling (Scored)"
   desc  "The RECYCLE_FACADES can specify if a new façade will be created for
@@ -22,4 +50,10 @@ to your startup script.
 "
   tag "Default Value": "If not specified, the default value of false will be
 used.\n"
+
+  begin
+    describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
+      its('org.apache.catalina.connector.RECYCLE_FACADES') { should eq 'true' }
+    end
+  end
 end

@@ -1,3 +1,31 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-10.10" do
   title "10.10 Configure connectionTimeout (Scored)"
   desc  "The connectionTimeout setting allows Tomcat to close idle sockets
@@ -23,4 +51,20 @@ of concurrent connections.
 connectionTimeout='60000'
 "
   tag "Default Value": "connectionTimeout is set to 60000\n"
+
+  begin
+    tomcat_conf = xml(TOMCAT_CONF_SERVER)
+
+      if tomcat_conf['Server/Service/Connector/attribute::connectionTimeout'].is_a?(Array)
+        tomcat_conf['Server/Service/Connector/attribute::connectionTimeout'].each do |x|
+          describe x do
+            it { should eq "60000" }
+          end
+        end
+      else
+        describe xml(tomcat_conf['Server/Service/Connector/attribute::connectionTimeout']) do
+          it { should eq "60000" }
+        end
+      end
+  end
 end
