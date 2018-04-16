@@ -22,6 +22,12 @@ TOMCAT_CONF_WEB= attribute(
   default: '/usr/share/tomcat/conf/web.xml'
 )
 
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
 only_if do
   service(TOMCAT_SERVICE_NAME).installed?
 end
@@ -57,4 +63,20 @@ $CATALINA_HOME/webapps/newname
 "
   tag "Default Value": "The default name of the manager application is
 “manager\" and is located at:\n$CATALINA_HOME/webapps/manager\n"
+
+  begin
+    man_dir = command("find #{TOMCAT_HOME}/webapps/ -name manager")
+    man_xml = command("find #{TOMCAT_HOME}/webapps/ -name manager.xml")
+    man_local_xml = command("find #{TOMCAT_HOME}/conf/Catalina/localhost/ - name manager.xml")
+
+    describe man_dir do
+      its('stdout') { should_not include 'manager'}
+    end
+    describe man_xml do
+      its('stdout') { should_not include 'manager.xml'}
+    end
+    describe man_local_xml do
+      its('stdout') { should_not include 'manager.xml'}
+    end
+  end
 end

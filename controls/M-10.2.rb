@@ -56,3 +56,10 @@ other regular expression meta-characters must be escaped.
   tag "Default Value": "By default, this configuration is not present.\n"
 
   begin
+    describe xml(TOMCAT_CONF_SERVER) do
+      its('Server/Service/Engine/Host/Valve/attribute::className') { should include "org.apache.catalina.valves.RemoteAddrValve" }
+      its('Server/Service/Engine/Host/Valve/attribute::allow') { should_not be_empty }
+      its('Server/Service/Engine/Host/Valve/attribute::allow') { should_not cmp '' }
+    end
+  end
+end

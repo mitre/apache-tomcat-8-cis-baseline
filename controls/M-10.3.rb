@@ -69,7 +69,7 @@ other regular expression meta-characters must be escaped.
     manager_xml = command("find /usr/share/tomcat/conf/ -name manager.xml").stdout.split.each do |man_xml|
       describe xml(man_xml) do
         its('Context/Valve/attribute::className') { should include "org.apache.catalina.valves.RemoteAddrValve" }
-        its('Context/Valve/attribute::allow') { should_not cmp '' }
+        its('Context/Valve/attribute::allow') { should_not cmp [] }
       end
     end
   end
