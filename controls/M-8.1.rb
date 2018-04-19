@@ -1,3 +1,37 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-8.1" do
   title "8.1 Restrict runtime access to sensitive packages (Scored)"
   desc  "package.access grants or revokes access to listed packages during
@@ -23,4 +57,18 @@ org.apache.jasper
   tag "Default Value": "The default package.access value within
 $CATALINA_BASE/conf/catalina.properties is:\npackage.access =
 sun.,org.apache.catalina.,org.apache.coyote.,org.apache.tomcat.,\norg.apache.jasper\n\n"
+
+  begin
+    test1 = tomcat_catalina_conf("/usr/share/tomcat/conf/catalina.properties")
+    puts test1.params
+
+    allowed_pak = ['sun.', 'org.apache.catalina.', 'org.apache.coyote.', 'org.apache.jasper.', 'org.apache.tomcat.']
+    options = {
+      assignment_regex: /^\s*([^=]*?)\s*=\s*(.*)\\\\{0,1}(.*)$/m,
+      multiple_values: true
+    }
+    describe parse_config_file("#{TOMCAT_HOME}/conf/catalina.properties") do
+      its('params') { should be_in allowed_pak }
+    end
+  end
 end

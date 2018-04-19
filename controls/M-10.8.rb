@@ -54,11 +54,11 @@ false.\n"
 
   begin
     describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
-      its('org.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH') { should eq 'false' }
+      its('ALLOW_BACKSLASH') { should eq 'false' }
     end
 
     describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
-      its('org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH') { should eq 'false' }
+      its('ALLOW_ENCODED_SLASH') { should eq 'false' }
     end
   end
 end

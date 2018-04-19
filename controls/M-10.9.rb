@@ -54,7 +54,7 @@ set to false.\n"
 
   begin
     describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
-      its('USE_CUSTOM_STATUS_MSG_IN_HEADER') { should eq 'false' }
+      its('org.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER') { should eq 'false' }
     end
   end
 end
