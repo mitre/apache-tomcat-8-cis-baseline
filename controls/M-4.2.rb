@@ -1,3 +1,31 @@
+TOMCAT_BASE= attribute(
+  'tomcat_base',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_GROUP= attribute(
+  'tomcat_group',
+  description: 'group owner of files/directories',
+  default: 'tomcat'
+)
+
+TOMCAT_OWNER= attribute(
+  'tomcat_owner',
+  description: 'user owner of files/directories',
+  default: 'tomcat_admin'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-4.2" do
   title "4.2 Restrict access to $CATALINA_BASE (Scored)"
   desc  "$CATALINA_BASE is the environment variable that specifies the base
@@ -31,4 +59,10 @@ execute permissions for the world Remove write permissions for the group.
 # chmod g-w,o-rwx $CATALINA_BASE
 
 "
+
+  describe directory("#{TOMCAT_BASE}") do
+    its('owner') { should eq "#{TOMCAT_OWNER}" }
+    its('group') { should eq "#{TOMCAT_GROUP}" }
+    its('mode') { should cmp '0750' }
+  end
 end
