@@ -1,2 +1,3 @@
-# cis_apache_tomcat_benchmark_8
-Apache tomcat8 benchmark
+# Example InSpec Profile
+
+This example shows the implementation of an InSpec profile.
