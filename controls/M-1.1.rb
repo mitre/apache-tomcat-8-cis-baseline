@@ -58,47 +58,22 @@ $CATALINA_HOME/conf/Catalina/localhost/manager.xml
   tag "Default Value": "Depending on your install method, default extraneous
 resources will vary.\n\n"
 
-  describe command("ls -l #{TOMCAT_HOME}/webapps/js-examples") do
-    its('stdout.strip') { should eq '' }
-  end
+  directory_list = ["webapps/js-examples",
+                    "webapps/servlet-example",
+                    "webapps/webdav",
+                    "webapps/tomcat-docs",
+                    "webapps/balancer",
+                    "webapps/ROOT/admin",
+                    "webapps/examples",
+                    "server/webapps/host-manager",
+                    "server/webapps/manager",
+                    "conf/Catalina/localhost/host-manager.xml",
+                    "conf/Catalina/localhost/manager.xml"
+                    ]
 
-  describe command("ls -l #{TOMCAT_HOME}/webapps/servlet-example") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/webapps/webdav") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/webapps/tomcat-docs") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/webapps/balancer") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/webapps/ROOT/admin") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/webapps/examples") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/server/webapps/host-manager") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/server/webapps/manager") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/conf/Catalina/localhost/host-manager.xml") do
-    its('stdout.strip') { should eq '' }
-  end
-
-  describe command("ls -l #{TOMCAT_HOME}/conf/Catalina/localhost/manager.xml") do
-    its('stdout.strip') { should eq '' }
+  directory_list.each do |app|
+    describe command("ls -l #{TOMCAT_HOME}/#{app}") do
+      its('stdout.strip') { should eq '' }
+    end
   end
 end

@@ -9,6 +9,9 @@
 # Description: Tomcat home Directory
 tomcat_home: '/usr/share/tomcat'
 
+# Description: Tomcat Directory for additional servers
+tomcat_base: '/usr/share/tomcat'
+
 # Description: Tomcat App Directory
 tomcat_app_dir: '/var/lib/tomcat'
 
@@ -36,5 +39,11 @@ tomcat_server_built: 'server.built=Oct 30 2017 10:21:55 UTC'
 # Description: Tomcat server configuration file
 tomcat_conf_server: '/usr/share/tomcat/conf/server.xml'
 
-#Description: Tomcat web configuration file
+# Description: Tomcat web configuration file
 tomcat_conf_web: '/usr/share/tomcat/conf/web.xml'
+
+# Description: Group owner of files/directories
+tomcat_group: 'tomcat'
+
+# Description: User owner of files/directories
+tomcat_owner: 'tomcat_admin'
