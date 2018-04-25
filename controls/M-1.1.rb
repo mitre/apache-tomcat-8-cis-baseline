@@ -10,6 +10,22 @@ TOMCAT_SERVICE_NAME= attribute(
   default: 'tomcat'
 )
 
+TOMCAT_EXTRANEOUS_RESOURCE_LIST= attribute(
+  'tomcat_extraneous_resource_list',
+  description: 'List of extraneous resources that should not exist',
+  default: ["webapps/js-examples",
+            "webapps/servlet-example",
+            "webapps/webdav",
+            "webapps/tomcat-docs",
+            "webapps/balancer",
+            "webapps/ROOT/admin",
+            "webapps/examples",
+            "server/webapps/host-manager",
+            "server/webapps/manager",
+            "conf/Catalina/localhost/host-manager.xml",
+            "conf/Catalina/localhost/manager.xml"]
+)
+
 only_if do
   service(TOMCAT_SERVICE_NAME).installed?
 end
@@ -58,20 +74,7 @@ $CATALINA_HOME/conf/Catalina/localhost/manager.xml
   tag "Default Value": "Depending on your install method, default extraneous
 resources will vary.\n\n"
 
-  directory_list = ["webapps/js-examples",
-                    "webapps/servlet-example",
-                    "webapps/webdav",
-                    "webapps/tomcat-docs",
-                    "webapps/balancer",
-                    "webapps/ROOT/admin",
-                    "webapps/examples",
-                    "server/webapps/host-manager",
-                    "server/webapps/manager",
-                    "conf/Catalina/localhost/host-manager.xml",
-                    "conf/Catalina/localhost/manager.xml"
-                    ]
-
-  directory_list.each do |app|
+  TOMCAT_EXTRANEOUS_RESOURCE_LIST.each do |app|
     describe command("ls -l #{TOMCAT_HOME}/#{app}") do
       its('stdout.strip') { should eq '' }
     end
