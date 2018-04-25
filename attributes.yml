@@ -47,3 +47,22 @@ tomcat_group: 'tomcat'
 
 # Description: User owner of files/directories
 tomcat_owner: 'tomcat_admin'
+
+# Description: A list of Realms that should not be enabled
+tomcat_realms_list: ['org.apache.catalina.realm.MemoryRealm',
+                    'org.apache.catalina.realm.JDBCRealm',
+                    'org.apache.catalina.realm.UserDatabaseRealm',
+                    'org.apache.catalina.realm.JAASRealm']
+                    
+# Description: List of extraneous resources that should not exist
+tomcat_extraneous_resource_list: ["webapps/js-examples",
+                                  "webapps/servlet-example",
+                                  "webapps/webdav",
+                                  "webapps/tomcat-docs",
+                                  "webapps/balancer",
+                                  "webapps/ROOT/admin",
+                                  "webapps/examples",
+                                  "server/webapps/host-manager",
+                                  "server/webapps/manager",
+                                  "conf/Catalina/localhost/host-manager.xml",
+                                  "conf/Catalina/localhost/manager.xml"]
