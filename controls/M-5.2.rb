@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-5.2" do
   title "5.2 Use LockOut Realms (Scored)"
   desc  "A LockOut realm wraps around standard realms adding the ability to
@@ -24,4 +40,33 @@ className='org.apache.catalina.realm.DataSourceRealm'
 dataSourceName=... />
 </Realm>
 "
+
+  lockoutRealm = "org.apache.catalina.realm.LockOutRealm"
+
+  describe.one do
+    describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+      its('Server/Service/Engine/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+      its('Server/Service/Engine/Realm/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+      its('Server/Service/Host/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+      its('Server/Service/Host/Realm/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+      its('Server/Service/Context/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+      its('Server/Service/Context/Realm/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/context.xml") do
+      its('Context/Realm/@className') { should cmp lockoutRealm }
+    end
+    describe xml("#{TOMCAT_HOME}/conf/context.xml") do
+      its('Context/Realm/Realm/@className') { should cmp lockoutRealm }
+    end
+  end
 end
