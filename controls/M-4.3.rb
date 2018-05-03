@@ -1,3 +1,31 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_GROUP= attribute(
+  'tomcat_group',
+  description: 'group owner of files/directories',
+  default: 'tomcat'
+)
+
+TOMCAT_OWNER= attribute(
+  'tomcat_owner',
+  description: 'user owner of files/directories',
+  default: 'tomcat_admin'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-4.3" do
   title "4.3 Restrict access to Tomcat configuration directory (Scored)"
   desc  "The Tomcat $CATALINA_HOME/conf/ directory contains Tomcat
@@ -32,4 +60,10 @@ permissions for the group.
 "
   tag "Default Value": "The default permissions of the top-level directories is
 770."
+
+  describe directory("#{TOMCAT_HOME}/conf") do
+    its('owner') { should eq "#{TOMCAT_OWNER}" }
+    its('group') { should eq "#{TOMCAT_GROUP}" }
+    its('mode') { should cmp '0750' }
+  end
 end

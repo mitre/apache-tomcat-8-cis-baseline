@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-3.2" do
   title "3.2 Disable the Shutdown port (Not Scored)"
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By
@@ -26,4 +42,8 @@ to -1 in the $CATALINA_HOME/conf/server.xml file:
 "
   tag "Default Value": "The shutdown port is enabled on TCP port 8005, bound to
 the loopback address.\n"
+
+  describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+    its('Server/@port') { should cmp '-1' }
+  end
 end

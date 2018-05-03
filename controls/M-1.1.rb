@@ -1,3 +1,35 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_EXTRANEOUS_RESOURCE_LIST= attribute(
+  'tomcat_extraneous_resource_list',
+  description: 'List of extraneous resources that should not exist',
+  default: ["webapps/js-examples",
+            "webapps/servlet-example",
+            "webapps/webdav",
+            "webapps/tomcat-docs",
+            "webapps/balancer",
+            "webapps/ROOT/admin",
+            "webapps/examples",
+            "server/webapps/host-manager",
+            "server/webapps/manager",
+            "conf/Catalina/localhost/host-manager.xml",
+            "conf/Catalina/localhost/manager.xml"]
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-1.1" do
   title "1.1 Remove extraneous files and directories (Scored)"
   desc  "The installation may provide example applications, documentation, and
@@ -28,4 +60,10 @@ $CATALINA_HOME/conf/Catalina/localhost/manager.xml
 "
   tag "Default Value": "\"docs\", \"examples\", \"manager\" and
 \"host-manager\" are default web applications shipped\nwith Tomcat."
+
+  TOMCAT_EXTRANEOUS_RESOURCE_LIST.each do |app|
+    describe command("ls -l #{TOMCAT_HOME}/#{app}") do
+      its('stdout.strip') { should eq '' }
+    end
+  end
 end

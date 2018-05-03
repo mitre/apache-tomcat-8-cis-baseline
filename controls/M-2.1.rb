@@ -1,3 +1,25 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVER_INFO= attribute(
+  'tomcat_server_info',
+  description: 'server.info value',
+  default: 'server.info=Apache Tomcat/7.0.76'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-2.1" do
   title "2.1 Alter the Advertised server.info String (Scored)"
   desc  "The server.info attribute contains the name of the application
@@ -33,4 +55,8 @@ $ jar uf catalina.jar org/apache/catalina/util/ServerInfo.properties
 "
   tag "Default Value": "The default value for the server.info attribute is
 Apache Tomcat/.. For example, Apache\nTomcat/7.0.\n"
+
+  describe command("unzip -p #{TOMCAT_HOME}/lib/catalina.jar org/apache/catalina/util/ServerInfo.properties | grep server.info") do
+    its('stdout.strip') { should eq "#{TOMCAT_SERVER_INFO}" }
+  end
 end

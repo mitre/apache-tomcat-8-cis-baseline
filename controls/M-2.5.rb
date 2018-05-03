@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-2.5" do
   title "2.5 Disable client facing Stack Traces (Scored)"
   desc  "When a runtime error occurs during request processing, Apache Tomcat
@@ -49,4 +65,54 @@ The resulting entry will look as follows:
   tag "Default Value": "Tomcat’s default configuration does not include an
 <error-page> element in\n$CATALINA_HOME/conf/web.xml. Therefore, Tomcat will
 provide debug information to\nthe requestor by default.\n"
+
+  # Query the main web.xml
+  web_conf = xml("#{TOMCAT_HOME}/conf/web.xml")
+  errorIter = 1
+  if web_conf['web-app/error-page'].is_a?(Array)
+    numConnectors = web_conf['web-app/error-page'].count
+    until errorIter > numConnectors  do
+       describe web_conf["web-app/error-page[#{errorIter}]"] do
+         it { should_not eq [] }
+       end
+       describe web_conf["web-app/error-page[#{errorIter}]/exception-type"] do
+         it { should cmp "java.lang.Throwable"}
+       end
+       describe web_conf["web-app/error-page[#{errorIter}]/location"] do
+         it { should_not eq [] }
+       end
+       errorIter +=1
+     end
+    if !web_conf['web-app/error-page'].any?
+     describe web_conf["web-app/error-page"] do
+       it { should_not eq [] }
+     end
+   end
+  end
+
+  # Query the web.xml for each webapp
+  command("find #{TOMCAT_HOME}/webapps/ ! -path #{TOMCAT_HOME}/webapps/ -type d -maxdepth 1").stdout.split.each do |webappname|
+    webapp_conf = xml("#{webappname}/WEB-INF/web.xml")
+    webAppIter = 1
+    if webapp_conf['web-app/error-page'].is_a?(Array)
+      numConnectors = webapp_conf['web-app/error-page'].count
+      until webAppIter > numConnectors  do
+         describe webapp_conf["web-app/error-page[#{webAppIter}]"] do
+           it { should_not eq [] }
+         end
+         describe webapp_conf["web-app/error-page[#{webAppIter}]/exception-type"] do
+           it { should cmp "java.lang.Throwable"}
+         end
+         describe webapp_conf["web-app/error-page[#{webAppIter}]/location"] do
+           it { should_not eq [] }
+         end
+         webAppIter +=1
+       end
+      if !webapp_conf['web-app/error-page'].any?
+       describe webapp_conf["web-app/error-page"] do
+         it { should_not eq [] }
+       end
+     end
+    end
+  end
 end

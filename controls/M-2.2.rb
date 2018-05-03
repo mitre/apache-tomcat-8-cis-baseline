@@ -1,3 +1,25 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVER_NUMBER= attribute(
+  'tomcat_server_number',
+  description: 'server.number value',
+  default: 'server.number=7.0.76.0'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-2.2" do
   title "2.2 Alter the Advertised server.number String (Scored)"
   desc  "The server.number attribute represents the specific version of Tomcat
@@ -34,4 +56,8 @@ $ jar uf catalina.jar org/apache/catalina/util/ServerInfo.properties
 "
   tag "Default Value": "The default value for the server.number attribute is a
 four part version number, such as\n5.5.20.0."
+
+  describe command("unzip -p #{TOMCAT_HOME}/lib/catalina.jar org/apache/catalina/util/ServerInfo.properties | grep server.number") do
+    its('stdout.strip') { should eq "#{TOMCAT_SERVER_NUMBER}" }
+  end
 end
