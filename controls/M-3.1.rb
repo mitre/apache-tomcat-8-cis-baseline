@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-3.1" do
   title "3.1 Set a nondeterministic Shutdown command value (Scored)"
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By
@@ -31,4 +47,8 @@ characters.
 "
   tag "Default Value": "The default value for the shutdown attribute is
 SHUTDOWN.\n"
+
+  describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+    its('Server/@shutdown') { should_not cmp 'SHUTDOWN' }
+  end
 end

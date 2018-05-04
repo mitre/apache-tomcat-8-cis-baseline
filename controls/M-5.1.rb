@@ -1,3 +1,28 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_REALMS_LIST= attribute(
+  'tomcat_realms_list',
+  description: 'A list of Realms that should not be enabled',
+  default: ['org.apache.catalina.realm.MemoryRealm',
+            'org.apache.catalina.realm.JDBCRealm',
+            'org.apache.catalina.realm.UserDatabaseRealm',
+            'org.apache.catalina.realm.JAASRealm']
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-5.1" do
   title "5.1 Use secure Realms (Scored)"
   desc  "A realm is a database of usernames and passwords used to identify
@@ -55,4 +80,24 @@ The above commands should not emit any output.
 to one of the
 appropriate realms.
 "
+
+  describe xml("#{TOMCAT_HOME}/conf/server.xml") do
+    its('Server/Service/Engine/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+
+    its('Server/Service/Engine/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+
+    its('Server/Service/Host/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+
+    its('Server/Service/Host/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+
+    its('Server/Service/Context/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+
+    its('Server/Service/Context/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+  end
+
+  describe xml("#{TOMCAT_HOME}/conf/context.xml") do
+    its('Context/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+
+    its('Context/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+  end
 end

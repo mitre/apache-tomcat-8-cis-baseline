@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-2.4" do
   title "2.4 Disable X-Powered-By HTTP Header and Rename the Server Value for
 all Connectors (Scored)"
@@ -37,4 +53,39 @@ except a
 blank string.
 "
   tag "Default Value": "The default value is false.\n"
+
+  tomcat_conf = xml("#{TOMCAT_HOME}/conf/server.xml")
+
+  serverIter = 1
+  if tomcat_conf['Server/Service/Connector/@server'].is_a?(Array)
+    numConnectors = tomcat_conf['Server/Service/Connector'].count
+    until serverIter > numConnectors do
+       describe tomcat_conf["Server/Service/Connector[#{serverIter}]/@server"] do
+         it { should_not eq [] }
+         it { should_not cmp 'Apache Tomcat' }
+       end
+       serverIter +=1
+     end
+  end
+
+  xpoweredByIter = 1
+  if tomcat_conf['Server/Service/Connector/@xpoweredBy'].is_a?(Array) && tomcat_conf['Server/Service/Connector/@xpoweredBy'].any?
+    numConnectors = tomcat_conf['Server/Service/Connector'].count
+    until xpoweredByIter > numConnectors do
+       describe.one do
+         describe tomcat_conf["Server/Service/Connector[#{xpoweredByIter}]/@xpoweredBy"] do
+           it { should cmp 'false' }
+         end
+         describe tomcat_conf["Server/Service/Connector[#{xpoweredByIter}]/@xpoweredBy"] do
+           it { should cmp [] }
+         end
+       end
+       xpoweredByIter +=1
+    end
+  end
+  if !tomcat_conf['Server/Service/Connector/@xpoweredBy'].any?
+    describe tomcat_conf["Server/Service/Connector/@xpoweredBy"] do
+      it { should cmp [] }
+    end
+  end
 end

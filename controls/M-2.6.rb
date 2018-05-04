@@ -1,3 +1,19 @@
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-2.6" do
   title "2.6 Turn off TRACE (Scored)"
   desc  "The HTTP TRACE verb provides debugging and diagnostics information for
@@ -34,4 +50,27 @@ $CATALINA_HOME/conf/server.xml is absent.
   tag "Default Value": "Tomcat does not allow the TRACE HTTP verb by default.
 Tomcat will only allow TRACE if\nthe allowTrace attribute is present and set to
 true.\n"
+
+  allowTraceIter = 1
+  tomcat_conf = xml("#{TOMCAT_HOME}/conf/server.xml")
+  if tomcat_conf['Server/Service/Connector/@allowTrace'].is_a?(Array) && tomcat_conf['Server/Service/Connector/@allowTrace'].any?
+    numConnectors = tomcat_conf['Server/Service/Connector'].count
+    until allowTraceIter > numConnectors do
+       describe.one do
+         describe tomcat_conf["Server/Service/Connector[#{allowTraceIter}]/@allowTrace"] do
+           it { should cmp 'false' }
+         end
+         describe tomcat_conf["Server/Service/Connector[#{allowTraceIter}]/@allowTrace"] do
+           it { should cmp [] }
+         end
+       end
+       allowTraceIter +=1
+    end
+  end
+
+  if !tomcat_conf['Server/Service/Connector/@allowTrace'].any?
+    describe tomcat_conf['Server/Service/Connector/@allowTrace'] do
+      it { should cmp [] }
+    end
+  end
 end
