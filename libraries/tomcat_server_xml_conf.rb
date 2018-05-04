@@ -1,5 +1,5 @@
 require 'happymapper'
-
+require 'file_reader'
 
 class Listener
   include HappyMapper
@@ -67,8 +67,29 @@ class Server
   has_one :service, Service, tag: 'Service'
 end
 
-x = Server.parse(File.read('/Users/cchaffee/Repos/cis_apache_tomcat_benchmark_8/server.xml'))
+class TomcatServerXml < Inspec.resource(1)
+  name 'tomcat_server_xml'
+  include HappyMapper
+  include FileReader
 
-require 'pry'
+  attr_reader :params
 
-binding.pry
+  def initialize(path = nil)
+    @conf_path = path || '/usr/share/tomcat/conf/server.xml'
+    @content = read_file_content(@conf_path)
+    @params = []
+    parse_conf
+  end
+
+  def parse_conf
+    @tomcat_server = TomcatServerXml.parse(@content)
+    # fetch_users # replace these with new methods
+    # fetch_roles
+  end
+end
+
+# x = Server.parse(File.read('/Users/cchaffee/Repos/cis_apache_tomcat_benchmark_8/server.xml'))
+#
+# require 'pry'
+#
+# binding.pry

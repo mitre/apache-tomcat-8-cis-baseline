@@ -1,3 +1,43 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_LOGS= attribute(
+  'tomcat_logs',
+  description: 'location of tomcat log directory',
+  default: '/usr/share/tomcat/logs'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-7.2" do
   title "7.2 Specify file handler in logging.properties files (Scored)"
   desc  "Handlers specify where log messages are sent. Console handlers send
@@ -30,4 +70,14 @@ as:
 org.apache.juli.FileHandler.level=FINEST
 "
   tag "Default Value": "No value for new applications by default.\n"
+
+  begin
+    log_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/logging.properties")
+
+    describe log_prop do
+      its(['handlers']) { should include 'org.apache.juli.FileHandler' }
+      its(['handlers']) { should include 'java.util.logging.ConsoleHandler' }
+      its(['org.apache.juli.FileHandler.level']) { should cmp 'FINEST' }
+    end
+  end
 end

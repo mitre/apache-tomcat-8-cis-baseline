@@ -60,3 +60,4 @@ autoDeploy='false'
       its('Server/Service/Engine/Host/attribute::autoDeploy') { should cmp 'false' }
     end
   end
+end

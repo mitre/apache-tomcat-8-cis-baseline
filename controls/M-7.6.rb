@@ -1,3 +1,43 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_LOGS= attribute(
+  'tomcat_logs',
+  description: 'location of tomcat log directory',
+  default: '/usr/share/tomcat/logs'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-7.6" do
   title "7.6 Ensure directory in logging.properties is a secure location
 (Scored)"
@@ -27,4 +67,30 @@ tomcat_admin:tomcat with permissions of o-rwx.
 "
   tag "Default Value": "The directory location is configured to store logs in
 $CATALINA_BASE/logs"
+
+  begin
+    log_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/logging.properties")
+    app_dir = command("ls #{TOMCAT_HOME}/webapps").stdout.split
+    app_prefix = command("ls #{TOMCAT_HOME}/webapps").stdout.split
+
+    app_dir.each do |app|
+      app << ".org.apache.juli.FileHandler.directory"
+    end
+
+    app_prefix.each do |app|
+      app << ".org.apache.juli.FileHandler.prefix"
+    end
+
+    app_dir.each do |app|
+        describe log_prop do
+          its([app]) { should cmp "${catalina.base}/logs"}
+        end
+    end
+
+    app_prefix.each do |app|
+        describe log_prop do
+          its([app]) { should cmp app.strip.split('.')[0] }
+        end
+    end
+  end
 end
