@@ -39,6 +39,7 @@ class Connector
   attribute :scheme, String, tag: 'scheme'
   attribute :sslenable, String, tag: 'SSLEnabled'
   attribute :clientauth, String, tag: 'clientAuth'
+  attribute :secure, String, tag: 'secure'
 end
 
 
@@ -81,15 +82,36 @@ class TomcatServerXml < Inspec.resource(1)
     parse_conf
   end
 
+  filter = FilterTable.create
+  filter.add_accessor(:where)
+        .add_accessor(:entries)
+        .add(:ports,                field: :port)
+        .add(:protocols,            field: :protocol)
+        .add(:sslenables,           field: :sslenable)
+        .add(:schemes,              field: :scheme)
+        .add(:sslprotocols,         field: :sslprotocol)
+        .add(:secures,              field: :secure)
+        .add(:clientauths,          field: :clientauth)
+        .add(:exists?) { |x| x.entries.any? }
+  filter.connect(self, :params)
+
   def parse_conf
-    @tomcat_server = TomcatServerXml.parse(@content)
-    # fetch_users # replace these with new methods
-    # fetch_roles
+    @tomcat_server = Server.parse(@content)
+    fetch_connectors
+  end
+
+  def fetch_connectors
+    @tomcat_server.service.connectors.each { |connector| @params <<
+      {
+        port: connector.port,
+        protocol: connector.protocol,
+        timeout: connector.timeout,
+        redirect: connector.redirectport,
+        sslprotocol: connector.sslprotocol,
+        scheme: connector.scheme,
+        sslenable: connector.sslenable,
+        clientauth: connector.clientauth,
+        secure: connector.secure
+      }}
   end
 end
-
-# x = Server.parse(File.read('/Users/cchaffee/Repos/cis_apache_tomcat_benchmark_8/server.xml'))
-#
-# require 'pry'
-#
-# binding.pry

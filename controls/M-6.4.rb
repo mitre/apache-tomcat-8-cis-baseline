@@ -1,3 +1,43 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_LOGS= attribute(
+  'tomcat_logs',
+  description: 'location of tomcat log directory',
+  default: '/usr/share/tomcat/logs'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-6.4" do
   title "6.4 Ensure secure is set to true only for SSL-enabled Connectors
 (Scored)"
@@ -33,4 +73,16 @@ secure='true'
 />
 "
   tag "Default Value": "The secure attribute is set to false.\n"
+
+  begin
+    tomcat_server = tomcat_server_xml("#{TOMCAT_CONF_SERVER}")
+
+    tomcat_server.params.each do |connector|
+      describe connector do
+        if connector[:sslenable] == "true"
+          its([:secure]) { should cmp 'true' }
+        end
+      end
+    end
+  end
 end

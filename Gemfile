@@ -1,3 +1,3 @@
 source 'https://rubygems.org'
 
-gem 'nokogiri-happymapper'
+gem 'nokogiri-happymapper', :require => 'happymapper'

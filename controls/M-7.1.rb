@@ -1,3 +1,43 @@
+TOMCAT_SERVICE_NAME= attribute(
+  'tomcat_service_name',
+  description: 'Name of Tomcat service',
+  default: 'tomcat'
+)
+
+TOMCAT_CONF_SERVER= attribute(
+  'tomcat_conf_server',
+  description: 'Path to tomcat server.xml',
+  default: '/usr/share/tomcat/conf/server.xml'
+)
+
+TOMCAT_APP_DIR= attribute(
+  'tomcat_app_dir',
+  description: 'location of tomcat app directory',
+  default: '/var/lib/tomcat'
+)
+
+TOMCAT_CONF_WEB= attribute(
+  'tomcat_conf_web',
+  description: 'location of tomcat web.xml',
+  default: '/usr/share/tomcat/conf/web.xml'
+)
+
+TOMCAT_HOME= attribute(
+  'tomcat_home',
+  description: 'location of tomcat home directory',
+  default: '/usr/share/tomcat'
+)
+
+TOMCAT_LOGS= attribute(
+  'tomcat_logs',
+  description: 'location of tomcat log directory',
+  default: '/usr/share/tomcat/logs'
+)
+
+only_if do
+  service(TOMCAT_SERVICE_NAME).installed?
+end
+
 control "M-7.1" do
   title "7.1 Application specific logging (Scored)"
   desc  "By default, java.util.logging does not provide the capabilities to
@@ -25,4 +65,21 @@ logging
 properties file
 "
   tag "Default Value": "By default, per application logging is not configured."
+
+  begin
+    apps = command("ls #{TOMCAT_HOME}/webapps/").stdout.split
+    ignore = ['docs', 'examples', 'host-manager', 'manager', 'ROOT']
+
+    ignore.each do |x|
+      if apps.include?(x)
+        apps.delete(x)
+      end
+    end
+
+    apps.each do |app|
+      describe command("ls #{TOMCAT_HOME}/webapps/#{app}/WEB-INF/classes/logging.properties") do
+        its('stdout') { should_not eq "" }
+      end
+    end
+  end
 end
