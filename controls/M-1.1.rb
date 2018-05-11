@@ -13,17 +13,10 @@ TOMCAT_SERVICE_NAME= attribute(
 TOMCAT_EXTRANEOUS_RESOURCE_LIST= attribute(
   'tomcat_extraneous_resource_list',
   description: 'List of extraneous resources that should not exist',
-  default: ["webapps/js-examples",
-            "webapps/servlet-example",
-            "webapps/webdav",
-            "webapps/tomcat-docs",
-            "webapps/balancer",
-            "webapps/ROOT/admin",
+  default: ["webapps/docs",
             "webapps/examples",
-            "server/webapps/host-manager",
-            "server/webapps/manager",
-            "conf/Catalina/localhost/host-manager.xml",
-            "conf/Catalina/localhost/manager.xml"]
+            "webapps/host-manager",
+            "webapps/manager"]
 )
 
 only_if do
