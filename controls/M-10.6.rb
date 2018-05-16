@@ -54,8 +54,10 @@ your startup script.
 present.\n"
 
   begin
-    describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
-      its('org.apache.catalina.STRICT_SERVLET_COMPLIANCE') { should eq 'true' }
+    cat_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/catalina.properties")
+
+    describe cat_prop['org.apache.catalina.STRICT_SERVLET_COMPLIANCE'] do
+      it { should cmp 'true' }
     end
   end
 end

@@ -53,8 +53,10 @@ to your startup script.
 used.\n"
 
   begin
-    describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
-      its('org.apache.catalina.connector.RECYCLE_FACADES') { should eq 'true' }
+    cat_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/catalina.properties")
+
+    describe cat_prop['org.apache.catalina.connector.RECYCLE_FACADES'] do
+      it { should cmp 'true' }
     end
   end
 end

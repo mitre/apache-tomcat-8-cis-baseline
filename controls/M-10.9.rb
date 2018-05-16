@@ -53,8 +53,10 @@ to your startup script.
 set to false.\n"
 
   begin
-    describe parse_config_file('/usr/share/tomcat/conf/catalina.properties') do
-      its('org.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER') { should eq 'false' }
+    cat_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/catalina.properties")
+
+    describe cat_prop['org.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER'] do
+      it { should cmp 'false' }
     end
   end
 end

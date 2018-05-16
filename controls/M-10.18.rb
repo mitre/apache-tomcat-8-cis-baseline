@@ -55,7 +55,7 @@ used.\n\n"
     describe xml(TOMCAT_CONF_SERVER) do
       its('Server/Listener/attribute::className') { should include 'org.apache.catalina.security.SecurityListener' }
       its('Server/Listener/attribute::checkedOsUsers') { should include 'root' }
-      its('Server/Listener/attribute::minimumUmask') { should cmp <= '0007' }
+      its('Server/Listener/attribute::minimumUmask') { should cmp '0007' }
     end
   end
 end
