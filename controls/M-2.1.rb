@@ -7,7 +7,7 @@ TOMCAT_HOME= attribute(
 TOMCAT_SERVER_INFO= attribute(
   'tomcat_server_info',
   description: 'server.info value',
-  default: 'server.info=Apache Tomcat/7.0.76'
+  default: 'server.info=Apache Tomcat/8.5.31'
 )
 
 TOMCAT_SERVICE_NAME= attribute(
