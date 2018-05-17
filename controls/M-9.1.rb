@@ -63,14 +63,8 @@ C:\\> %CATALINA_HOME%\\bin\\catalina start -security (Windows)
   tag "Default Value": "By default, the -security option is not utilized.\n"
 
   begin
-    tomcat_commands = processes('tomcat').commands.to_s.strip.split(" ")
-
-    describe parse_config_file("#{TOMCAT_HOME}/conf/tomcat.conf") do
-      its('SECURITY_MANAGER') { should eq "\"true\"" }
-    end
-
-    describe tomcat_commands do
-      it { should include '-Djava.security.manager'}
+    describe parse_config_file("/etc/systemd/system/tomcat.service") do
+      its('Service.ExecStart') { should cmp "#{TOMCAT_HOME}/bin/startup.sh -security" }
     end
   end
 end

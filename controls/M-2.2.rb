@@ -7,7 +7,7 @@ TOMCAT_HOME= attribute(
 TOMCAT_SERVER_NUMBER= attribute(
   'tomcat_server_number',
   description: 'server.number value',
-  default: 'server.number=8.5.31'
+  default: 'server.number=8.5.31.0'
 )
 
 TOMCAT_SERVICE_NAME= attribute(

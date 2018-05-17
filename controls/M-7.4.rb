@@ -76,9 +76,9 @@ tomcat_admin:tomcat with permissions of o-rwx.
       end
     end
     describe directory("#{TOMCAT_HOME}/logs") do
-      its('group') { should cmp 'tomcat_admin' }
-      its('owner') { should cmp 'tomcat' }
-      its('mode') { should cmp '0707' }
+      its('group') { should cmp 'tomcat' }
+      its('owner') { should cmp 'tomcat_admin' }
+      its('mode') { should cmp '0770' }
     end
   end
 end
