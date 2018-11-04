@@ -1,6 +1,6 @@
 # Example InSpec Profile
 
-This (WIP) InSpec profile for CIS Apache Tomcat v8 Benchmark helps you validate your Tomcat install to the CIS Benchmark recomendations.  
+(WIP) InSpec profile for CIS Apache Tomcat v8 Benchmark helps you validate your Tomcat install to the CIS Benchmark recomendations.  
 
 ## NOTICE  
 
