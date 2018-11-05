@@ -1,6 +1,19 @@
 # Example InSpec Profile
 
-(WIP) InSpec profile for CIS Apache Tomcat v8 Benchmark helps you validate your Tomcat install to the CIS Benchmark recomendations.  
+(WIP) InSpec profile for CIS Apache Tomcat v8 Benchmark helps you validate your Tomcat install to the CIS Benchmark recomendations.
+
+#### NOTE
+##### There be dragons
+
+The controls **still use** the `xml` resource and function correctly but **help / interest welcome** on completing the `tomcat_*` resources (see the start in the [libraries](./libraries/) directory) in the *other branches* off `master`.
+
+#### ALPHA: Custom Tomcat Resources
+
+Our current implamentation in the controls use the InSpec `xml` resource which is a bit complicated but works fine. 
+
+We are working on moving to a custom set of `tomcat_*` resources for much clearner and more direct InSpec controls. 
+
+***the custom `tomcat_*` resource is in very early alpha not yet complete and is not complete***
 
 ## NOTICE  
 
