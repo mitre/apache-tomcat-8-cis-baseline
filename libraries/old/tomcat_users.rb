@@ -1,5 +1,5 @@
 require 'happymapper'
-require 'file_reader'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class TomcatUsers < Inspec.resource(1)

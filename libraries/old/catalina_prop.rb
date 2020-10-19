@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 # require 'resources/postgres'
-require 'utils/file_reader'
+require 'inspec/utils/file_reader'
 
 module Inspec::Resources
   class TomcatPropFile < Inspec.resource(1)
