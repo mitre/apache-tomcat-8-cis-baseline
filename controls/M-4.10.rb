@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-4.10' do

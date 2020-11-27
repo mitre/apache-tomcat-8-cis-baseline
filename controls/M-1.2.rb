@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-1.2' do
@@ -8,8 +7,7 @@ settings. These are traditionally set up for convenience. It is best to remove
 these connectors and enable only what is needed. Improperly configured or
 unnecessarily installed Connectors may lead to a security exposure. "
   impact 0.5
-  tag "ref": "1.
-http://tomcat.apache.org/tomcat-8.0-doc/config/http.html#Connector_Comparison"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/http.html#Connector_Comparison'
   tag "severity": 'medium'
   tag "cis_id": '1.2'
   tag "cis_control": ['No CIS Control', '6.1']

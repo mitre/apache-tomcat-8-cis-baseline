@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.8' do
@@ -8,8 +7,7 @@ possibility that an attacker can access applications that were previously
 blocked a proxy like mod_proxy Allowing additional path-delimiters allows for
 an attacker to get an application or area that was not previously visible. "
   impact 0.5
-  tag "ref": "1.
-http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html'
   tag "severity": 'medium'
   tag "cis_id": '10.8'
   tag "cis_control": ['No CIS Control', '6.1']

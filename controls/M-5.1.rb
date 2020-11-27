@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-5.1' do
@@ -12,8 +11,8 @@ could result in reduced availability, the UserDatabaseRealm is not intended for
 large-scale installations, the JAASRealm is not widely used and therefore the
 code is not as mature as the other realms. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/realm-howto.html 2.
-https://tomcat.apache.org/tomcat-8.0-doc/security-howto.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/realm-howto.html'
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/security-howto.html'
   tag "severity": 'medium'
   tag "cis_id": '5.1'
   tag "cis_control": ['No CIS Control', '6.1']

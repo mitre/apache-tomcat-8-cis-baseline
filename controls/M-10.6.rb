@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.6' do
@@ -11,8 +10,7 @@ responding to requests. This is significant as the behavior of web browsers is
 inconsistent in the absence of the Content-type header. Some browsers will
 attempt to determine the appropriate content-type by sniffing "
   impact 0.5
-  tag "ref": "1.
-http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html'
   tag "severity": 'medium'
   tag "cis_id": '10.6'
   tag "cis_control": ['No CIS Control', '6.1']

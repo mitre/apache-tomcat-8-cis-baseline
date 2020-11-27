@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-6.3' do
@@ -11,8 +10,8 @@ between the scheme in use by the Connector and advertised by
 request.getScheme() will ensure applications built on Tomcat have an accurate
 depiction of the context and security guarantees provided to them. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html 2.
-http://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html'
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/http.html'
   tag "severity": 'medium'
   tag "cis_id": '6.3'
   tag "cis_control": ['No CIS Control', '6.1']

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-6.2' do
@@ -11,8 +10,8 @@ personal information. The SSLEnabled setting ensures SSL is active, which will
 in-turn ensure the confidentiality and integrity of sensitive information while
 in transit. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html 2.
-https://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html'
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/http.html'
   tag "severity": 'medium'
   tag "cis_id": '6.2'
   tag "cis_control": ['No CIS Control', '6.1']

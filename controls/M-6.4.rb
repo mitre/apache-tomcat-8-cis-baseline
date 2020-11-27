@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-6.4' do
@@ -12,8 +11,8 @@ reporting the security state of the Connector will help ensure that
 applications built on Tomcat are not unknowingly relying on security controls
 that are not in place. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html 2.
-http://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
+  ref ' http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html'
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/http.html'
   tag "severity": 'medium'
   tag "cis_id": '6.4'
   tag "cis_control": ['No CIS Control', '6.1']

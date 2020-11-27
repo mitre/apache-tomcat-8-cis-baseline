@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.3' do
@@ -8,8 +7,8 @@ needed. Limiting access to the least privilege required will ensure only those
 people with required need have access to a resource. The manager application
 should be limited to only administrators. "
   impact 0.5
-  tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html 2.
-https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html"
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html'
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html'
   tag "severity": 'medium'
   tag "cis_id": '10.3'
   tag "cis_control": ['No CIS Control', '6.1']

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.13' do
@@ -11,8 +10,8 @@ traversal vulnerability. Also there is a potential that an application could
 link to another application it should not be linking too. On case-insensitive
 operating systems there is also the threat of source code disclosure. "
   impact 0.5
-  tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/resources.html
-2. http://tomcat.apache.org/tomcat-8.0-doc/config/context.html"
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/resources.html'
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/context.html'
   tag "severity": 'medium'
   tag "cis_id": '10.13'
   tag "cis_control": ['No CIS Control', '6.1']

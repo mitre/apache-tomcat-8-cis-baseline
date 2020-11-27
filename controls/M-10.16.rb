@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.16' do
@@ -7,8 +6,8 @@ control 'M-10.16' do
 before logging the information. This adds additional resources when logging.
 Allowing enableLookups adds additional overhead that is rarely needed. "
   impact 0.5
-  tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html 2.
-https://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html'
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/http.html'
   tag "severity": 'medium'
   tag "cis_id": '10.16'
   tag "cis_control": ['No CIS Control', '6.1']

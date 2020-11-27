@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.18' do
@@ -8,8 +7,7 @@ when Tomcat starts and prevents Tomcat from starting if they fail. Enable the
 Security Lifecycle Listener can Enforce a blacklist of OS users that must not
 be used to start Tomcat. set the least restrictive umask before Tomcat start "
   impact 0.5
-  tag "ref": "1.
-https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#Security_Lifecycle_Listener__org.apache.catalina.security.SecurityListener"
+  ref 'https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#Security_Lifecycle_Listener__org.apache.catalina.security.SecurityListener'
   tag "severity": 'medium'
   tag "cis_id": '10.18'
   tag "cis_control": ['No CIS Control', '6.1']

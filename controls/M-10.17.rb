@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.17' do
@@ -13,8 +12,7 @@ work-arounds for known issues that can result in locked JAR files. Enable the
 JRE Memory Leak Prevention Listener provides a work-around for preventing a
 memory leak. "
   impact 0.5
-  tag "ref": "1.
-https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#JRE_Memory_Leak_Prevention_Listener__org.apache.catalina.core.JreMemoryLeakPreventionListener"
+  ref 'https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#JRE_Memory_Leak_Prevention_Listener__org.apache.catalina.core.JreMemoryLeakPreventionListener'
   tag "severity": 'medium'
   tag "cis_id": '10.17'
   tag "cis_control": ['No CIS Control', '6.1']

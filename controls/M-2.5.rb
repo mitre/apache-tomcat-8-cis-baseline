@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-2.5' do
@@ -11,8 +10,7 @@ may useful to an attacker. By preventing Tomcat from providing this
 information, the risk of leaking sensitive information to a potential attacker
 is reduced. "
   impact 0.5
-  tag "ref": "1.
-https://tomcat.apache.org/tomcat-8.0doc/api/org/apache/tomcat/util/descriptor/web/ErrorPage.html"
+  ref 'https://tomcat.apache.org/tomcat-8.0doc/api/org/apache/tomcat/util/descriptor/web/ErrorPage.html'
   tag "severity": 'medium'
   tag "cis_id": '2.5'
   tag "cis_control": ['No CIS Control', '6.1']

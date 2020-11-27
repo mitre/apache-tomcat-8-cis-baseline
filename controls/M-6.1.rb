@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-6.1' do
@@ -9,8 +8,8 @@ strong authentication than a password as it requires the client to have the
 cert and not just know a password. Certificate based authentication is more
 secure than password based authentication. "
   impact 0.5
-  tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/http.html 2.
-http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html"
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/http.html'
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html'
   tag "severity": 'medium'
   tag "cis_id": '6.1'
   tag "cis_control": ['No CIS Control', '6.1']

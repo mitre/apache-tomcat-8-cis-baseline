@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.19' do
@@ -18,10 +17,8 @@ to review it, and see if that is in fact what you actually want. Enable
 able to see if that is in fact what you actually want. Enable
 'metadata-complete' so that the web.xml is the only metadata considered. "
   impact 0.5
-  tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/context.html
-2.
-https://alexismp.wordpress.com/2010/07/28/servlet-3-0-fragments-and-webxml-to-rule-them-all/
- Appendix: Summary Table "
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/context.html'
+  ref 'https://alexismp.wordpress.com/2010/07/28/servlet-3-0-fragments-and-webxml-to-rule-them-all/'
   tag "severity": 'medium'
   tag "cis_id": '10.19'
   tag "cis_control": ['No CIS Control', '6.1']

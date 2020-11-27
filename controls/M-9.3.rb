@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-9.3' do
@@ -7,13 +6,9 @@ control 'M-9.3' do
 this capability be disabled. This could allow malicious or untested
 applications to be deployed and should be disabled. "
   impact 0.5
-  tag "ref": "1.
-http://tomcat.apache.org/tomcat-8.0-doc/deployerhowto.html#Deployment_on_Tomcat_startup
-2.
-https://tomcat.apache.org/tomcat-8.0doc/config/host.html#Automatic_Application_Deployment
-3. https://tomcat.apache.org/tomcat-8.0-doc/config/host.html  10 Miscellaneous
-Configuration Settings Store web content on a separate partition from Tomcat
-system files."
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/deployerhowto.html#Deployment_on_Tomcat_startup'
+  ref 'https://tomcat.apache.org/tomcat-8.0doc/config/host.html#Automatic_Application_Deployment'
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/config/host.html'
   tag "severity": 'medium'
   tag "cis_id": '9.3'
   tag "cis_control": ['No CIS Control', '6.1']

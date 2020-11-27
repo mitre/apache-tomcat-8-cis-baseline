@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-9.1' do
@@ -9,8 +8,7 @@ your server from mistakes, Trojans, and malicious code. By running Tomcat with
 the Security Manager, applications are run in a sandbox which can prevent
 untrusted code from accessing files on the file system. "
   impact 0.5
-  tag "ref": "1.
-http://tomcat.apache.org/tomcat-8.0-doc/security-manager-howto.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/security-manager-howto.html'
   tag "severity": 'medium'
   tag "cis_id": '9.1'
   tag "cis_control": ['No CIS Control', '6.1']

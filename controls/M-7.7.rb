@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-7.7' do
@@ -9,8 +8,7 @@ possible to fill a drive or partition containing the log files. Establishing a
 maximum log size that is smaller than the partition size will help mitigate the
 risk of an attacker maliciously exhausting disk space. "
   impact 0.5
-  tag "ref": "1.
-https://docs.oracle.com/javase/8/docs/api/java/util/logging/FileHandler.html"
+  ref 'https://docs.oracle.com/javase/8/docs/api/java/util/logging/FileHandler.html'
   tag "severity": 'medium'
   tag "cis_id": '7.7'
   tag "cis_control": ['No CIS Control', '6.1']

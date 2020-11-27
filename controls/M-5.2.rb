@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-5.2' do
@@ -7,8 +6,8 @@ control 'M-5.2' do
 lock a user out after multiple failed logins. Locking out a user after multiple
 failed logins slows down attackers from brute forcing logins. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/realm-howto.html 2.
-http://tomcat.apache.org/tomcat-8.0-doc/config/realm.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/realm-howto.html'
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/realm.html'
   tag "severity": 'medium'
   tag "cis_id": '5.2'
   tag "cis_control": ['No CIS Control', '6.1']

@@ -1,4 +1,3 @@
-# -*- encoding : utf-8 -*-
 # frozen_string_literal: true
 
 control 'M-10.7' do
@@ -9,9 +8,8 @@ information leakage from other sessions. When RECYCLE_FACADES is set to false,
 Tomcat will recycle the session façade between requests. This will allow for
 information leakage between requests. "
   impact 0.5
-  tag "ref": "1.
-http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html 2.
-https://tomcat.apache.org/tomcat-8.0-doc/security-howto.html"
+  ref 'http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html'
+  ref 'https://tomcat.apache.org/tomcat-8.0-doc/security-howto.html'
   tag "severity": 'medium'
   tag "cis_id": '10.7'
   tag "cis_control": ['No CIS Control', '6.1']
