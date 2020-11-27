@@ -1,36 +1,34 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-7.4" do
   title "7.4 Ensure directory in context.xml is a secure location (Scored)"
@@ -43,13 +41,13 @@ web application activity. "
   tag "cis_id": "7.4"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review the permissions of the directory specified by the
+  desc 'check', "Review the permissions of the directory specified by the
 directory setting to ensure the
 permissions are o-rwx and owned by tomcat_admin:tomcat:
 # grep directory context.xml
 # ls –ld <log location>
 "
-  tag "fix": "Perform the following: Add the following statement into the
+  desc 'fix', "Perform the following: Add the following statement into the
 $CATALINA_BASE\\webapps\\<app-name>\\METAINF\\context.xml file if it does not
 already exist.
 <Valve className='org.apache.catalina.valves.AccessLogValve'
@@ -62,10 +60,10 @@ tomcat_admin:tomcat with permissions of o-rwx.
 # chown tomcat_admin:tomcat $CATALINA_HOME/logs
 # chmod o-rwx $CATALINA_HOME/logs
 "
-  tag "Default Value": "Does not exist by default"
+  desc 'default value', "Does not exist by default"
 
   begin
-    context_xml = command("ls #{TOMCAT_HOME}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
+    context_xml = command("ls #{input('tomcat_home')}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
       describe xml(web_file) do
         its('Context/Valve/attribute::className') { should include "org.apache.catalina.valves.AccessLogValve" }
         its('Context/Valve/attribute::directory') { should cmp '$CATALINA_HOME/logs/' }
@@ -75,7 +73,7 @@ tomcat_admin:tomcat with permissions of o-rwx.
         its('Context/Valve/attribute::pattern') { should cmp '%h %t %H cookie:%{SESSIONID}c request:%{SESSIONID}r %m %U %s %q %r' }
       end
     end
-    describe directory("#{TOMCAT_HOME}/logs") do
+    describe directory("#{input('tomcat_home')}/logs") do
       its('group') { should cmp 'tomcat' }
       its('owner') { should cmp 'tomcat_admin' }
       its('mode') { should cmp '0770' }

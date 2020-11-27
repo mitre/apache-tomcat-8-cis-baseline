@@ -1,36 +1,34 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-9.3" do
   title "9.3 Disable deploy on startup of applications (Scored)"
@@ -49,15 +47,15 @@ system files."
   tag "cis_id": "9.3"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Perform the following to ensure deployOnStartup is set to
+  desc 'check', "Perform the following to ensure deployOnStartup is set to
 false.
 # grep 'deployOnStartup' $CATALINA_HOME/conf/server.xml
 "
-  tag "fix": "In the $CATALINA_HOME/conf/server.xml file, change
+  desc 'fix', "In the $CATALINA_HOME/conf/server.xml file, change
 deployOnStartup to false.
 deployOnStartup='false'
 "
-  tag "Default Value": "deployOnStartup is set to true\n"
+  desc 'default value', "deployOnStartup is set to true\n"
 
   begin
     describe xml(TOMCAT_CONF_SERVER) do

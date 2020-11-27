@@ -5,5 +5,69 @@ copyright: The MITRE Corporation
 copyright_email: saf@groups.mitre.org
 license: Apache-2.0
 summary: An InSpec Compliance Profile
-version: 0.1.0
+version: 0.9.0
 inspec_version: ">= 4.0"
+
+inputs:
+  - name: tomcat_home
+    type: String
+    description: 'location of tomcat home directory'
+    value: '/usr/share/tomcat'
+
+  - name: 'tomcat_base'
+    type: String
+    description: 'location of tomcat home directory'
+    value: '/usr/share/tomcat'
+
+  - name: tomcat_app_dir
+    type: String
+    description: 'location of tomcat app directory'
+    value: '/var/lib/tomcat'
+
+  - name: tomcat_owner
+    type: String
+    description: 'user owner of files/directories'
+    value: 'tomcat_admin'
+
+  - name: tomcat_group
+    type: String
+    description: 'group owner of files/directories'
+    value: 'tomcat'
+
+  - name: tomcat_service_name
+    type: String
+    description: 'Name of Tomcat service'
+    value: 'tomcat'
+  
+  - name: tomcat_server_number,
+    Type: String,
+    description: 'server.number value',
+    value: 'server.number=8.5.31.0'    
+  
+  - name: tomcat_server_info
+    type: String
+    description: 'server.info value'
+    value: 'server.info=Apache Tomcat/8.5.31'
+
+  - name: tomcat_server_built
+    type: String
+    description: 'server.built value'
+    value: 'server.built=Oct 30 2017 10:21:55 UTC'
+
+  - name: tomcat_extraneous_resource_list
+    type: Array
+    description: 'List of extraneous resources that should not exist'
+    value:
+      - 'webapps/docs'
+      - 'webapps/examples'
+      - 'webapps/host-manager'
+      - 'webapps/manager'
+      
+  - name: tomcat_realms_list
+    Type: Array
+    description: 'A list of Realms that should not be enabled',
+    value: 
+      - 'org.apache.catalina.realm.MemoryRealm'
+      - 'org.apache.catalina.realm.JDBCRealm'
+      - 'org.apache.catalina.realm.UserDatabaseRealm'
+      - 'org.apache.catalina.realm.JAASRealm'

@@ -1,24 +1,22 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.14" do
   title "10.14 Do not run applications as privileged (Scored)"
@@ -32,23 +30,23 @@ libraries. "
   tag "cis_id": "10.14"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Ensure all context.xml have the privileged attribute set
+  desc 'check', "Ensure all context.xml have the privileged attribute set
 to false or privileged does not exist.
 # find . -name context.xml | xargs grep 'privileged'
 "
-  tag "fix": "In all context.xml, set the privileged attribute to false unless
+  desc 'fix', "In all context.xml, set the privileged attribute to false unless
 it is required like the
 manager application:
 <Context ... privileged=”false” />
 "
-  tag "Default Value": "By default, privileged has a value of false.\n"
+  desc 'default value', "By default, privileged has a value of false.\n"
 
   begin
     describe.one do
-      describe command("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'privileged'") do
+      describe command("find #{input('tomcat_app_dir')} -name context.xml | xargs grep 'privileged'") do
         its('stdout') { should eq ''}
       end
-      describe command ("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'privileged'") do
+      describe command ("find #{input('tomcat_app_dir')} -name context.xml | xargs grep 'privileged'") do
         its('stdout') { should_not include 'privileged="true"' }
       end
     end

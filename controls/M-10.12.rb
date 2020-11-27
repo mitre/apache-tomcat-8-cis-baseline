@@ -1,30 +1,28 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.12" do
   title "10.12 Force SSL for all applications (Scored)"
@@ -40,16 +38,16 @@ NOTE: This requires SSL to be configured. "
   tag "cis_id": "10.12"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Ensure $CATALINA_HOME/conf/web.xml has the attribute set
+  desc 'check', "Ensure $CATALINA_HOME/conf/web.xml has the attribute set
 to CONFIDENTIAL.
 # grep transport-guarantee $CATALINA_HOME/conf/web.xml
 "
-  tag "fix": "In $CATALINA_HOME/conf/web.xml, set the following:
+  desc 'fix', "In $CATALINA_HOME/conf/web.xml, set the following:
 <user-data-constraint>
 <transport-guarantee>CONFIDENTIAL</transport-guarantee>
 <user-data-constraint>
 "
-  tag "Default Value": "By default, this configuration is not present.\n"
+  desc 'default value', "By default, this configuration is not present.\n"
 
   begin
     describe xml(TOMCAT_CONF_WEB) do

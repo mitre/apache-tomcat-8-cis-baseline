@@ -1,42 +1,40 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_LOGS= attribute(
+TOMCAT_LOGS= input(
   'tomcat_logs',
   description: 'location of tomcat log directory',
-  default: '/usr/share/tomcat/logs'
+  value: '/usr/share/tomcat/logs'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-7.2" do
   title "7.2 Specify file handler in logging.properties files (Scored)"
@@ -50,7 +48,7 @@ persisted to disk. "
   tag "cis_id": "7.2"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review each application’s logging.properties file located
+  desc 'check', "Review each application’s logging.properties file located
 in the applications
 $CATALINA_BASE\\webapps\\<app name>\\WEB-INF\\classes directory and determine
 if the
@@ -62,17 +60,17 @@ In the instance where an application specific logging has not been created, the
 logging.properties file will be located in $CATALINA_BASE\\conf
 $ grep handlers $CATALINA_BASE\\conf\\logging.properties
 "
-  tag "fix": "Add the following entries to your logging.properties file if they
+  desc 'fix', "Add the following entries to your logging.properties file if they
 do not exist.
 handlers=org.apache.juli.FileHandler, java.util.logging.ConsoleHandler
 Ensure logging is not off and set the logging level to the desired level such
 as:
 org.apache.juli.FileHandler.level=FINEST
 "
-  tag "Default Value": "No value for new applications by default.\n"
+  desc 'default value', "No value for new applications by default.\n"
 
   begin
-    log_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/logging.properties")
+    log_prop = tomcat_properties_file.read_content("#{input('tomcat_home')}/conf/logging.properties")
 
     describe log_prop do
       its(['handlers']) { should include 'org.apache.juli.FileHandler' }

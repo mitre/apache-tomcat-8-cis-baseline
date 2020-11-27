@@ -1,27 +1,25 @@
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_REALMS_LIST= attribute(
+input('tomcat_realms_list')= input(
   'tomcat_realms_list',
   description: 'A list of Realms that should not be enabled',
-  default: ['org.apache.catalina.realm.MemoryRealm',
+  value: ['org.apache.catalina.realm.MemoryRealm',
             'org.apache.catalina.realm.JDBCRealm',
             'org.apache.catalina.realm.UserDatabaseRealm',
             'org.apache.catalina.realm.JAASRealm']
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-5.1" do
   title "5.1 Use secure Realms (Scored)"
@@ -40,7 +38,7 @@ https://tomcat.apache.org/tomcat-8.0-doc/security-howto.html"
   tag "cis_id": "5.1"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Perform the following to ensure improper realm is not in
+  desc 'check', "Perform the following to ensure improper realm is not in
 use:
 #
 #
@@ -76,28 +74,23 @@ UserDatabaseRealm
 JAASRealm
 The above commands should not emit any output.
 "
-  tag "fix": "Set the Realm className setting in $CATALINA_HOME/conf/server.xml
+  desc 'fix', "Set the Realm className setting in $CATALINA_HOME/conf/server.xml
 to one of the
 appropriate realms.
 "
 
-  describe xml("#{TOMCAT_HOME}/conf/server.xml") do
-    its('Server/Service/Engine/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
-
-    its('Server/Service/Engine/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
-
-    its('Server/Service/Host/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
-
-    its('Server/Service/Host/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
-
-    its('Server/Service/Context/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
-
-    its('Server/Service/Context/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+  # @TODO update this to use looping expect syntax with a subject block
+  describe xml("#{input('tomcat_home')}/conf/server.xml") do
+    its('Server/Service/Engine/Realm/@className') { should_not be_in input('tomcat_realms_list') }
+    its('Server/Service/Engine/Realm/Realm/@className') { should_not be_in input('tomcat_realms_list') }
+    its('Server/Service/Host/Realm/@className') { should_not be_in input('tomcat_realms_list') }
+    its('Server/Service/Host/Realm/Realm/@className') { should_not be_in input('tomcat_realms_list') }
+    its('Server/Service/Context/Realm/@className') { should_not be_in input('tomcat_realms_list') }
+    its('Server/Service/Context/Realm/Realm/@className') { should_not be_in input('tomcat_realms_list') }
   end
 
-  describe xml("#{TOMCAT_HOME}/conf/context.xml") do
-    its('Context/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
-
-    its('Context/Realm/Realm/@className') { should_not be_in TOMCAT_REALMS_LIST }
+  describe xml("#{input('tomcat_home')}/conf/context.xml") do
+    its('Context/Realm/@className') { should_not be_in input('tomcat_realms_list') }
+    its('Context/Realm/Realm/@className') { should_not be_in input('tomcat_realms_list') }
   end
 end

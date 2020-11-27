@@ -1,19 +1,3 @@
-TOMCAT_APP_DIR= attribute(
-  'tomcat_app_dir',
-  description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
-)
-
-TOMCAT_SERVICE_NAME= attribute(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  default: 'tomcat'
-)
-
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
-
 control "M-10.19" do
   title "10.19 use the logEffectiveWebXml and metadata-complete settings for
 deploying applications in production (Scored)"
@@ -39,7 +23,7 @@ https://alexismp.wordpress.com/2010/07/28/servlet-3-0-fragments-and-webxml-to-ru
   tag "cis_id": "10.19"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "1. Review each application’s web.xml file located in the
+  desc 'check', "1. Review each application’s web.xml file located in the
 applications
 $CATALINA_BASE\\<app name>\\WEB-INF\\web.xml and determine if the
 metadatacomplete property is set.
@@ -57,7 +41,7 @@ logEffectiveWebXml='true'
 >
 
 "
-  tag "fix": "Set the metadata-complete value in the web.xml in each of
+  desc 'fix', "Set the metadata-complete value in the web.xml in each of
 applications to true,
 the web.xml contains a metadata-complete attribute in the web-app element whose
 
@@ -79,17 +63,17 @@ specified in that annotation.
 Set the logEffectiveWebXml value in the context.xml in each of applications to
 true
 "
-  tag "Default Value": "If logEffectiveWebXml not specified, the default value
+  desc 'default value', "If logEffectiveWebXml not specified, the default value
 of false is used; If metadatacomplete not specified, the default value of false
 is used\n"
 
   begin
 
-  web_xml = command("ls #{TOMCAT_APP_DIR}/webapps/*/WEB-INF/web.xml").stdout.split.each do |web_file|
+  web_xml = command("ls #{input('tomcat_app_dir')}/webapps/*/WEB-INF/web.xml").stdout.split.each do |web_file|
     describe xml(web_file) do
       its('web-app/attribute::metadata-complete') { should eq ['true'] }
     end
-  context_xml = command("ls #{TOMCAT_APP_DIR}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
+  context_xml = command("ls #{input('tomcat_app_dir')}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
     describe xml(web_file) do
       its('web-app/attribute::logEffectiveWebXml') { should eq ['true'] }
     end

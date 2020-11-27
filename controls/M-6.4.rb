@@ -1,42 +1,40 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_LOGS= attribute(
+TOMCAT_LOGS= input(
   'tomcat_logs',
   description: 'location of tomcat log directory',
-  default: '/usr/share/tomcat/logs'
+  value: '/usr/share/tomcat/logs'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-6.4" do
   title "6.4 Ensure secure is set to true only for SSL-enabled Connectors
@@ -55,13 +53,13 @@ http://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
   tag "cis_id": "6.4"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review server.xml and ensure the secure attribute is set
+  desc 'check', "Review server.xml and ensure the secure attribute is set
 to true for those Connectors
 having SSLEnabled set to true. Also, ensure the secure attribute set to false
 for those
 Connectors having SSLEnabled set to false.
 "
-  tag "fix": "For each Connector defined in server.xml, set the secure
+  desc 'fix', "For each Connector defined in server.xml, set the secure
 attribute to true for those
 Connectors having SSLEnabled set to true. Set the secure attribute set to false
 for those
@@ -72,7 +70,7 @@ secure='true'
 …
 />
 "
-  tag "Default Value": "The secure attribute is set to false.\n"
+  desc 'default value', "The secure attribute is set to false.\n"
 
   begin
     tomcat_server = tomcat_server_xml("#{TOMCAT_CONF_SERVER}")

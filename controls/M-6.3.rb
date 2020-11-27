@@ -1,42 +1,40 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_LOGS= attribute(
+TOMCAT_LOGS= input(
   'tomcat_logs',
   description: 'location of tomcat log directory',
-  default: '/usr/share/tomcat/logs'
+  value: '/usr/share/tomcat/logs'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-6.3" do
   title "6.3 Ensure scheme is set accurately (Scored)"
@@ -54,12 +52,12 @@ http://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
   tag "cis_id": "6.3"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review server.xml to ensure the Connector’s scheme
+  desc 'check', "Review server.xml to ensure the Connector’s scheme
 attribute is set to http for Connectorsperating over HTTP. Also ensure the
 Connector’s scheme attribute is set to https for
 Connectors operating over HTTPS.
 "
-  tag "fix": "In server.xml, set the Connector’s scheme attribute to http for
+  desc 'fix', "In server.xml, set the Connector’s scheme attribute to http for
 Connectors operating over
 HTTP. Set the Connector’s scheme attribute to https for Connectors operating of
 HTTPS.
@@ -69,7 +67,7 @@ scheme='https'
 …
 />
 "
-  tag "Default Value": "The scheme attribute is set to http.\n"
+  desc 'default value', "The scheme attribute is set to http.\n"
 
   begin
     tomcat_server = tomcat_server_xml("#{TOMCAT_CONF_SERVER}")

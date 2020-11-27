@@ -1,24 +1,22 @@
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_SERVER_NUMBER= attribute(
+input('tomcat_server_number')= input(
   'tomcat_server_number',
   description: 'server.number value',
-  default: 'server.number=8.5.31.0'
+  value: 'server.number=8.5.31.0'
 )
 
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-2.2" do
   title "2.2 Alter the Advertised server.number String (Scored)"
@@ -33,14 +31,14 @@ vulnerabilities affect the server platform. "
   tag "cis_id": "2.2"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Perform the following to determine if the server.number
+  desc 'check', "Perform the following to determine if the server.number
 value has been changed: Extract the ServerInfo.properties file and examine the
 server.number attribute.
 $ cd $CATALINA_HOME/lib
 $ jar xf catalina.jar org/apache/catalina/util/ServerInfo.properties
 $ grep server.number org/apache/catalina/util/ServerInfo.properties
 "
-  tag "fix": "Perform the following to alter the server version string that
+  desc 'fix', "Perform the following to alter the server version string that
 gets displayed when clients
 connect to the server. Extract the ServerInfo.properties file from the
 catalina.jar file:
@@ -54,10 +52,11 @@ ServerInfo.properties file.
 
 $ jar uf catalina.jar org/apache/catalina/util/ServerInfo.properties
 "
-  tag "Default Value": "The default value for the server.number attribute is a
+  desc 'default value', "The default value for the server.number attribute is a
 four part version number, such as\n5.5.20.0."
 
-  describe command("unzip -p #{TOMCAT_HOME}/lib/catalina.jar org/apache/catalina/util/ServerInfo.properties | grep server.number") do
-    its('stdout.strip') { should eq "#{TOMCAT_SERVER_NUMBER}" }
+#@TODO Make this an active and passive test 
+  describe command("unzip -p #{input('tomcat_home')}/lib/catalina.jar org/apache/catalina/util/ServerInfo.properties | grep server.number") do
+    its('stdout.strip') { should cmp "#{input('tomcat_server_number')}" }
   end
 end

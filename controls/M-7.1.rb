@@ -1,42 +1,40 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_LOGS= attribute(
+TOMCAT_LOGS= input(
   'tomcat_logs',
   description: 'location of tomcat log directory',
-  default: '/usr/share/tomcat/logs'
+  value: '/usr/share/tomcat/logs'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-7.1" do
   title "7.1 Application specific logging (Scored)"
@@ -53,10 +51,10 @@ needed for security review. "
   tag "cis_id": "7.1"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Ensure a logging.properties file is locate at
+  desc 'check', "Ensure a logging.properties file is locate at
 $CATALINA_BASE\\webapps\\<app_name>\\WEB-INF\\classes.
 "
-  tag "fix": "Create a logging.properties file and place that into your
+  desc 'fix', "Create a logging.properties file and place that into your
 application WEB-INF\\classes
 directory. Note: By default, installing Tomcat places a logging.properties file
 in
@@ -64,10 +62,10 @@ $CATALINA_HOME\\conf. This file can be used as base for an application specific
 logging
 properties file
 "
-  tag "Default Value": "By default, per application logging is not configured."
+  desc 'default value', "By default, per application logging is not configured."
 
   begin
-    apps = command("ls #{TOMCAT_HOME}/webapps/").stdout.split
+    apps = command("ls #{input('tomcat_home')}/webapps/").stdout.split
     ignore = ['docs', 'examples', 'host-manager', 'manager', 'ROOT']
 
     ignore.each do |x|
@@ -77,7 +75,7 @@ properties file
     end
 
     apps.each do |app|
-      describe command("ls #{TOMCAT_HOME}/webapps/#{app}/WEB-INF/classes/logging.properties") do
+      describe command("ls #{input('tomcat_home')}/webapps/#{app}/WEB-INF/classes/logging.properties") do
         its('stdout') { should_not eq "" }
       end
     end

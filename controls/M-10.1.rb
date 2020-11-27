@@ -1,36 +1,34 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.1" do
   title "10.1 Ensure Web content directory is on a separate partition from the
@@ -49,7 +47,7 @@ part of the file system. "
   tag "cis_id": "10.1"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Locate the Tomcat system files and web content directory.
+  desc 'check', "Locate the Tomcat system files and web content directory.
 Review the system partitions
 and ensure the system files and web content directory are on separate
 partitions.
@@ -58,15 +56,15 @@ partitions.
 Note: Use the default value 'webapps' which is defined by 'appBase' attribute
 here.
 "
-  tag "fix": "Move the web content files to a separate partition from the
+  desc 'fix', "Move the web content files to a separate partition from the
 tomcat system files and update
 your configuration.
 "
-  tag "Default Value": "Not Applicable"
+  desc 'default value', "Not Applicable"
 
   begin
-    tomcat_system = command("df #{TOMCAT_HOME}").stdout.split[7]
-    tomcat_web = command("df #{TOMCAT_HOME}/webapps").stdout.split[7]
+    tomcat_system = command("df #{input('tomcat_home')}").stdout.split[7]
+    tomcat_web = command("df #{input('tomcat_home')}/webapps").stdout.split[7]
 
     describe tomcat_web do
       it { should_not cmp tomcat_system }

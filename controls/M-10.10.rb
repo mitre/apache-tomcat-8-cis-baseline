@@ -1,30 +1,28 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.10" do
   title "10.10 Configure connectionTimeout (Scored)"
@@ -38,19 +36,19 @@ protect against Denial of Service attacks. "
   tag "cis_id": "10.10"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Locate each connectionTimeout setting in
+  desc 'check', "Locate each connectionTimeout setting in
 $CATALINA_HOME/conf/server.xml and verify
 the setting is correct.
 # grep connectionTimeout $CATALINA_HOME/conf/server.xml
 "
-  tag "fix": "Within $CATALINA_HOME/conf/server.xml ensure each connector is
+  desc 'fix', "Within $CATALINA_HOME/conf/server.xml ensure each connector is
 configured to the
 connectionTimeout setting that is optimal based on hardware resources, load,
 and number
 of concurrent connections.
 connectionTimeout='60000'
 "
-  tag "Default Value": "connectionTimeout is set to 60000\n"
+  desc 'default value', "connectionTimeout is set to 60000\n"
 
   begin
     tomcat_conf = xml(TOMCAT_CONF_SERVER)

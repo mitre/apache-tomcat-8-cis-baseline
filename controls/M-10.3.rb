@@ -1,30 +1,28 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.3" do
   title "10.3 Restrict manager application (Not Scored)"
@@ -39,13 +37,13 @@ https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html"
   tag "cis_id": "10.3"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Review
+  desc 'check', "Review
 $CATALINA_BASE/conf/[enginename]/[hostname]/manager.xml to ascertain that
 the RemoteAddrValve option is uncommented and configured to only allow access
 to
 systems required to connect.
 "
-  tag "fix": "For the manager application, edit
+  desc 'fix', "For the manager application, edit
 $CATALINA_BASE/conf/[enginename]/[hostname]/manager.xml, and add the bolded
 line:
 <Context path='/manager' docBase='${catalina.home}/webapps/manager' debug='0'
@@ -62,7 +60,7 @@ Note: The RemoteAddrValve property expects a regular expression, therefore
 periods and
 other regular expression meta-characters must be escaped.
 "
-  tag "Default Value": "By default, this setting is not present\n"
+  desc 'default value', "By default, this setting is not present\n"
 
   begin
     manager_xml = command("find /usr/share/tomcat/conf/ -name manager.xml").stdout.split.each do |man_xml|

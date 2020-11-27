@@ -1,18 +1,16 @@
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-2.6" do
   title "2.6 Turn off TRACE (Scored)"
@@ -27,7 +25,7 @@ leaking sensitive information to a potential attacker is reduced. "
   tag "cis_id": "2.6"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Perform the following to determine if the server platform,
+  desc 'check', "Perform the following to determine if the server platform,
 as advertised in the HTTP Server
 header, has been changed: Locate all Connector elements in
 $CATALINA_HOME/conf/server.xml. Ensure each Connector does not have a
@@ -38,7 +36,7 @@ application
 instances of web.xml can be found at
 $CATALINA_HOME/webapps/<APP_NAME>/WEBINF/web.xml
 "
-  tag "fix": "Perform the following to prevent Tomcat from accepting a TRACE
+  desc 'fix', "Perform the following to prevent Tomcat from accepting a TRACE
 request: Set the allowTrace attributes to each Connector specified in
 $CATALINA_HOME/conf/server.xml to false.
 <Connector ... allowTrace='false' />
@@ -47,12 +45,12 @@ Alternatively, ensure the allowTrace attribute for each Connector specified in
 $CATALINA_HOME/conf/server.xml is absent.
 
 "
-  tag "Default Value": "Tomcat does not allow the TRACE HTTP verb by default.
+  desc 'default value', "Tomcat does not allow the TRACE HTTP verb by default.
 Tomcat will only allow TRACE if\nthe allowTrace attribute is present and set to
 true.\n"
 
   allowTraceIter = 1
-  tomcat_conf = xml("#{TOMCAT_HOME}/conf/server.xml")
+  tomcat_conf = xml("#{input('tomcat_home')}/conf/server.xml")
   if tomcat_conf['Server/Service/Connector/@allowTrace'].is_a?(Array) && tomcat_conf['Server/Service/Connector/@allowTrace'].any?
     numConnectors = tomcat_conf['Server/Service/Connector'].count
     until allowTraceIter > numConnectors do

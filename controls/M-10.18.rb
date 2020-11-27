@@ -1,18 +1,16 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.18" do
   title "10.18 Setting Security Lifecycle Listener (Scored)"
@@ -27,11 +25,11 @@ https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#Security_Lifecycle
   tag "cis_id": "10.18"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review server.xml to ensure the Security Lifecycle
+  desc 'check', "Review server.xml to ensure the Security Lifecycle
 Listener element is uncommented and
 checkedOsUsers, minimumUmask attributes are set with expected value.
 "
-  tag "fix": "To enable it uncomment the listener in
+  desc 'fix', "To enable it uncomment the listener in
 $CATALINA_BASE/conf/server.xml. If the operating
 system supports umask then the line in $CATALINA_HOME/bin/catalina.sh that
 obtains the
@@ -46,7 +44,7 @@ will start. If not specified, the default value of 0007 is used.
 <Listener className='org.apache.catalina.security.SecurityListener'
 checkedOsUsers='alex,bob' minimumUmask='0007' />
 "
-  tag "Default Value": "The Security Lifecycle Listener is not enabled by
+  desc 'default value', "The Security Lifecycle Listener is not enabled by
 default. For checkedOsUsers, If not\nspecified, the default value of root is
 used. For minimumUmask, if not specified, the default\nvalue of 0007 is
 used.\n\n"

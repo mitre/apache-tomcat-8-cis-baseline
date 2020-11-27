@@ -1,24 +1,22 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.15" do
   title "10.15 Do not allow cross context requests (Scored)"
@@ -32,22 +30,22 @@ make requests to a restricted application. "
   tag "cis_id": "10.15"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Ensure all context.xml have the crossContext attribute set
+  desc 'check', "Ensure all context.xml have the crossContext attribute set
 to false or crossContext does not
 exist.
 # find . -name context.xml | xargs grep 'crossContext'
 "
-  tag "fix": "In all context.xml, set the crossContext attribute to false:
+  desc 'fix', "In all context.xml, set the crossContext attribute to false:
 <Context ... crossContext=”false” />
 "
-  tag "Default Value": "By default, crossContext has a value of false.\n"
+  desc 'default value', "By default, crossContext has a value of false.\n"
 
   begin
     describe.one do
-      describe command("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'crossContext'") do
+      describe command("find #{input('tomcat_app_dir')} -name context.xml | xargs grep 'crossContext'") do
         its('stdout') { should eq ''}
       end
-      describe command ("find #{TOMCAT_APP_DIR} -name context.xml | xargs grep 'crossContext'") do
+      describe command ("find #{input('tomcat_app_dir')} -name context.xml | xargs grep 'crossContext'") do
         its('stdout') { should_not include 'crossContext="true"' }
       end
     end

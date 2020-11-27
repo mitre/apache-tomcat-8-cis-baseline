@@ -1,30 +1,28 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.9" do
   title "10.9 Do not allow custom header status messages (Scored)"
@@ -40,20 +38,20 @@ http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html"
   tag "cis_id": "10.9"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Ensure the above parameter is added to the startup script
+  desc 'check', "Ensure the above parameter is added to the startup script
 which by default is located at
 $CATALINA_HOME/bin/catalina.sh.
 "
-  tag "fix": "Start Tomcat with USE_CUSTOM_STATUS_MSG_IN_HEADER set to false.
+  desc 'fix', "Start Tomcat with USE_CUSTOM_STATUS_MSG_IN_HEADER set to false.
 Add the following
 to your startup script.
 -Dorg.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER=false
 "
-  tag "Default Value": "By default, allowing custom header status messages is
+  desc 'default value', "By default, allowing custom header status messages is
 set to false.\n"
 
   begin
-    cat_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/catalina.properties")
+    cat_prop = tomcat_properties_file.read_content("#{input('tomcat_home')}/conf/catalina.properties")
 
     describe cat_prop['org.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER'] do
       it { should cmp 'false' }

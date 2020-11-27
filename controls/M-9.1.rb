@@ -1,36 +1,34 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-9.1" do
   title "9.1 Starting Tomcat with Security Manager (Scored)"
@@ -46,11 +44,11 @@ http://tomcat.apache.org/tomcat-8.0-doc/security-manager-howto.html"
   tag "cis_id": "9.1"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review the startup configuration in /etc/init.d for Tomcat
+  desc 'check', "Review the startup configuration in /etc/init.d for Tomcat
 to ascertain if Tomcat is started
 with the -security option
 "
-  tag "fix": "The security policies implemented by the Java SecurityManager are
+  desc 'fix', "The security policies implemented by the Java SecurityManager are
 configured in the
 $CATALINA_HOME/conf/catalina.policy file. Once you have configured the
 catalina.policy
@@ -60,11 +58,11 @@ by using the --security option:
 $ $CATALINA_HOME/bin/catalina.sh start -security (Unix)
 C:\\> %CATALINA_HOME%\\bin\\catalina start -security (Windows)
 "
-  tag "Default Value": "By default, the -security option is not utilized.\n"
+  desc 'default value', "By default, the -security option is not utilized.\n"
 
   begin
     describe parse_config_file("/etc/systemd/system/tomcat.service") do
-      its('Service.ExecStart') { should cmp "#{TOMCAT_HOME}/bin/startup.sh -security" }
+      its('Service.ExecStart') { should cmp "#{input('tomcat_home')}/bin/startup.sh -security" }
     end
   end
 end

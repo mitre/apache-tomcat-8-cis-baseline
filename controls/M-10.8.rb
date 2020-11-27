@@ -1,30 +1,28 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.8" do
   title "10.8 Do not allow additional path delimiters (Scored)"
@@ -39,17 +37,17 @@ http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html"
   tag "cis_id": "10.8"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Ensure the above parameters are added to the startup
+  desc 'check', "Ensure the above parameters are added to the startup
 script which by default is located at
 $CATALINA_HOME/bin/catalina.sh.
 "
-  tag "fix": "Start Tomcat with ALLOW_BACKSLASH set to false and
+  desc 'fix', "Start Tomcat with ALLOW_BACKSLASH set to false and
 ALLOW_ENCODED_SLASH set to
 false. Add the following to your startup script.
 -Dorg.apache.catalina.connector.CoyoteAdapter.ALLOW_BACKSLASH=false
 -Dorg.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH=false
 "
-  tag "Default Value": "By default, allowing additional parameters is set to
+  desc 'default value', "By default, allowing additional parameters is set to
 false.\n"
 
   begin

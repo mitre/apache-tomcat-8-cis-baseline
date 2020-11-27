@@ -1,18 +1,16 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 
 control "M-10.16" do
@@ -27,15 +25,15 @@ https://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
   tag "cis_id": "10.16"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Ensure Connector elements have the enableLookups attribute
+  desc 'check', "Ensure Connector elements have the enableLookups attribute
 set to falser enableLookups does not exist.
 # grep enableLookups $CATALINA_HOME/conf/server.xml
 "
-  tag "fix": "In Connector elements, set the enableLookups attribute to false
+  desc 'fix', "In Connector elements, set the enableLookups attribute to false
 or remove it.
 <Connector ... enableLookups='false' />
 "
-  tag "Default Value": "By default, DNS lookups are disabled.\n"
+  desc 'default value', "By default, DNS lookups are disabled.\n"
 
   begin
     describe command("grep enableLookups #{TOMCAT_CONF_SERVER}") do

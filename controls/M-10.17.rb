@@ -1,18 +1,16 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.17" do
   title "10.17 Enable memory leak listener (Scored)"
@@ -32,11 +30,11 @@ https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#JRE_Memory_Leak_Pr
   tag "cis_id": "10.17"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Review the $CATALINA_HOME/conf/server.xml and see whether
+  desc 'check', "Review the $CATALINA_HOME/conf/server.xml and see whether
 JRE Memory Leak
 Prevention Listener is enabled.
 "
-  tag "fix": "Uncomment the JRE Memory Leak Prevention Listener in
+  desc 'fix', "Uncomment the JRE Memory Leak Prevention Listener in
 $CATALINA_HOME/conf/server.xml
 <Listener className='org.apache.catalina.core.JreMemoryLeakPreventionListener'
 />

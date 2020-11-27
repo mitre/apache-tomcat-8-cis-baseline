@@ -1,36 +1,34 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-7.7" do
   title "7.7 Configure log file size limit (Scored)"
@@ -46,18 +44,18 @@ https://docs.oracle.com/javase/8/docs/api/java/util/logging/FileHandler.html"
   tag "cis_id": "7.7"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Validate the max file limit is not greater than the size
+  desc 'check', "Validate the max file limit is not greater than the size
 of the partition where the log files are
 stored.
 "
-  tag "fix": "Create the following entry in your logging.properties file. This
+  desc 'fix', "Create the following entry in your logging.properties file. This
 field is specified in bytes.
 java.util.logging.FileHandler.limit=10000
 "
-  tag "Default Value": "No limit by default.\n"
+  desc 'default value', "No limit by default.\n"
 
   begin
-    cat_prop = tomcat_properties_file.read_content("#{TOMCAT_HOME}/conf/catalina.properties")
+    cat_prop = tomcat_properties_file.read_content("#{input('tomcat_home')}/conf/catalina.properties")
     describe cat_prop['java.util.logging.FileHandler.limit'] do
       it { should cmp '10000' }
     end

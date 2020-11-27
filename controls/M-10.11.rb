@@ -1,30 +1,28 @@
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_CONF_SERVER= attribute(
+TOMCAT_CONF_SERVER= input(
   'tomcat_conf_server',
   description: 'Path to tomcat server.xml',
-  default: '/usr/share/tomcat/conf/server.xml'
+  value: '/usr/share/tomcat/conf/server.xml'
 )
 
-TOMCAT_APP_DIR= attribute(
+input('tomcat_app_dir')= input(
   'tomcat_app_dir',
   description: 'location of tomcat app directory',
-  default: '/var/lib/tomcat'
+  value: '/var/lib/tomcat'
 )
 
-TOMCAT_CONF_WEB= attribute(
+TOMCAT_CONF_WEB= input(
   'tomcat_conf_web',
   description: 'location of tomcat web.xml',
-  default: '/usr/share/tomcat/conf/web.xml'
+  value: '/usr/share/tomcat/conf/web.xml'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-10.11" do
   title "10.11 Configure maxHttpHeaderSize (Scored)"
@@ -38,17 +36,17 @@ requests. "
   tag "cis_id": "10.11"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 2
-  tag "audit text": "Locate each maxHttpHeaderSize setting in
+  desc 'check', "Locate each maxHttpHeaderSize setting in
 $CATALINA_HOME/conf/server.xml and verify
 that they are set to 8192.
 # grep maxHttpHeaderSize $CATALINA_HOME/conf/server.xml
 "
-  tag "fix": "Within $CATALINA_HOME/conf/server.xml ensure each connector is
+  desc 'fix', "Within $CATALINA_HOME/conf/server.xml ensure each connector is
 configured to the
 appropriate maxHttpHeaderSize setting.
 maxHttpHeaderSize=”8192”
 "
-  tag "Default Value": "maxHttpHeaderSize is set to 8192\n"
+  desc 'default value', "maxHttpHeaderSize is set to 8192\n"
 
   begin
     tomcat_conf = xml(TOMCAT_CONF_SERVER)

@@ -1,18 +1,16 @@
-TOMCAT_HOME= attribute(
+input('tomcat_home')= input(
   'tomcat_home',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-2.5" do
   title "2.5 Disable client facing Stack Traces (Scored)"
@@ -30,7 +28,7 @@ https://tomcat.apache.org/tomcat-8.0doc/api/org/apache/tomcat/util/descriptor/we
   tag "cis_id": "2.5"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Perform the following to determine if Tomcat is configured
+  desc 'check', "Perform the following to determine if Tomcat is configured
 to prevent sending debug
 information to the requestor Ensure an <error-page> element is defined in$
 CATALINA_HOME/conf/web.xml. Ensure the <error-page> element has an
@@ -42,7 +40,7 @@ application
 instances of web.xml can be found at
 $CATALINA_HOME/webapps/<APP_NAME>/WEBINF/web.xml
 "
-  tag "fix": "Perform the following to prevent Tomcat from providing debug
+  desc 'fix', "Perform the following to prevent Tomcat from providing debug
 information to the
 requestor during runtime errors: Create a web page that contains the logic or
 message you wish to invoke when
@@ -62,12 +60,12 @@ The resulting entry will look as follows:
 <location>/error.jsp</location>
 </error-page>
 "
-  tag "Default Value": "Tomcat’s default configuration does not include an
+  desc 'default value', "Tomcat’s default configuration does not include an
 <error-page> element in\n$CATALINA_HOME/conf/web.xml. Therefore, Tomcat will
 provide debug information to\nthe requestor by default.\n"
 
   # Query the main web.xml
-  web_conf = xml("#{TOMCAT_HOME}/conf/web.xml")
+  web_conf = xml("#{input('tomcat_home')}/conf/web.xml")
   errorIter = 1
   if web_conf['web-app/error-page'].is_a?(Array)
     numConnectors = web_conf['web-app/error-page'].count
@@ -91,7 +89,7 @@ provide debug information to\nthe requestor by default.\n"
   end
 
   # Query the web.xml for each webapp
-  command("find #{TOMCAT_HOME}/webapps/ ! -path #{TOMCAT_HOME}/webapps/ -type d -maxdepth 1").stdout.split.each do |webappname|
+  command("find #{input('tomcat_home')}/webapps/ ! -path #{input('tomcat_home')}/webapps/ -type d -maxdepth 1").stdout.split.each do |webappname|
     webapp_conf = xml("#{webappname}/WEB-INF/web.xml")
     webAppIter = 1
     if webapp_conf['web-app/error-page'].is_a?(Array)

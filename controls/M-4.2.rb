@@ -1,30 +1,28 @@
-TOMCAT_BASE= attribute(
+input('tomcat_base')= input(
   'tomcat_base',
   description: 'location of tomcat home directory',
-  default: '/usr/share/tomcat'
+  value: '/usr/share/tomcat'
 )
 
-TOMCAT_SERVICE_NAME= attribute(
+input('tomcat_service_name')= input(
   'tomcat_service_name',
   description: 'Name of Tomcat service',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_GROUP= attribute(
+input('tomcat_group')= input(
   'tomcat_group',
   description: 'group owner of files/directories',
-  default: 'tomcat'
+  value: 'tomcat'
 )
 
-TOMCAT_OWNER= attribute(
+input('tomcat_owner')= input(
   'tomcat_owner',
   description: 'user owner of files/directories',
-  default: 'tomcat_admin'
+  value: 'tomcat_admin'
 )
 
-only_if do
-  service(TOMCAT_SERVICE_NAME).installed?
-end
+
 
 control "M-4.2" do
   title "4.2 Restrict access to $CATALINA_BASE (Scored)"
@@ -43,7 +41,7 @@ $CATALINA_BASE is not secured. "
   tag "cis_id": "4.2"
   tag "cis_control": ["No CIS Control", "6.1"]
   tag "cis_level": 1
-  tag "audit text": "Perform the following to ensure the permission on the
+  desc 'check', "Perform the following to ensure the permission on the
 $CATALINA_BASE directory prevent
 unauthorized modification.
 $ cd $CATALINA_BASE
@@ -52,15 +50,15 @@ $ find . -follow -maxdepth 0 \\( -perm /o+rwx,g=w -o ! -user tomcat_admin -o !
 tomcat \\) -ls
 The above command should not emit any output.
 "
-  tag "fix": "Perform the following to establish the recommended state: Set the
+  desc 'fix', "Perform the following to establish the recommended state: Set the
 ownership of the $CATALINA_BASE to tomcat_admin:tomcat. Remove read, write, and
 execute permissions for the world Remove write permissions for the group.
 # chown tomcat_admin.tomcat $CATALINA_BASE
 # chmod g-w,o-rwx $CATALINA_BASE"
 
-  describe directory("#{TOMCAT_BASE}") do
-    its('owner') { should eq "#{TOMCAT_OWNER}" }
-    its('group') { should eq "#{TOMCAT_GROUP}" }
+  describe directory("#{input('tomcat_base')}") do
+    its('owner') { should cmp "#{input('tomcat_owner')}" }
+    its('group') { should cmp "#{input('tomcat_group')}" }
     its('mode') { should cmp '0750' }
   end
 end
