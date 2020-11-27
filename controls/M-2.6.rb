@@ -1,17 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-
-
 control "M-2.6" do
   title "2.6 Turn off TRACE (Scored)"
   desc  "The HTTP TRACE verb provides debugging and diagnostics information for

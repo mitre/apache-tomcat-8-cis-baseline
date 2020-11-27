@@ -1,29 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-input('tomcat_group')= input(
-  'tomcat_group',
-  description: 'group owner of files/directories',
-  value: 'tomcat'
-)
-
-input('tomcat_owner')= input(
-  'tomcat_owner',
-  description: 'user owner of files/directories',
-  value: 'tomcat_admin'
-)
-
-
-
 control "M-4.10" do
   title "4.10 Restrict access to Tomcat context.xml (Scored)"
   desc  "The context.xml file is loaded by all web applications and sets

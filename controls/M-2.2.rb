@@ -1,23 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_server_number')= input(
-  'tomcat_server_number',
-  description: 'server.number value',
-  value: 'server.number=8.5.31.0'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-
-
 control "M-2.2" do
   title "2.2 Alter the Advertised server.number String (Scored)"
   desc  "The server.number attribute represents the specific version of Tomcat

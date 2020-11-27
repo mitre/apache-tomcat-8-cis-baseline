@@ -1,17 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-
-
 control "M-3.1" do
   title "3.1 Set a nondeterministic Shutdown command value (Scored)"
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By

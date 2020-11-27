@@ -1,26 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-input('tomcat_realms_list')= input(
-  'tomcat_realms_list',
-  description: 'A list of Realms that should not be enabled',
-  value: ['org.apache.catalina.realm.MemoryRealm',
-            'org.apache.catalina.realm.JDBCRealm',
-            'org.apache.catalina.realm.UserDatabaseRealm',
-            'org.apache.catalina.realm.JAASRealm']
-)
-
-
-
 control "M-5.1" do
   title "5.1 Use secure Realms (Scored)"
   desc  "A realm is a database of usernames and passwords used to identify

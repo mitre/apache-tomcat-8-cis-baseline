@@ -1,29 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-input('tomcat_group')= input(
-  'tomcat_group',
-  description: 'group owner of files/directories',
-  value: 'tomcat'
-)
-
-input('tomcat_owner')= input(
-  'tomcat_owner',
-  description: 'user owner of files/directories',
-  value: 'tomcat_admin'
-)
-
-
-
 control "M-4.8" do
   title "4.8 Restrict access to Tomcat catalina.policy (Scored)"
   desc  "The catalina.policy file is used to configure security policies for

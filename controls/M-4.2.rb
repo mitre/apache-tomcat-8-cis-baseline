@@ -1,29 +1,3 @@
-input('tomcat_base')= input(
-  'tomcat_base',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-input('tomcat_group')= input(
-  'tomcat_group',
-  description: 'group owner of files/directories',
-  value: 'tomcat'
-)
-
-input('tomcat_owner')= input(
-  'tomcat_owner',
-  description: 'user owner of files/directories',
-  value: 'tomcat_admin'
-)
-
-
-
 control "M-4.2" do
   title "4.2 Restrict access to $CATALINA_BASE (Scored)"
   desc  "$CATALINA_BASE is the environment variable that specifies the base

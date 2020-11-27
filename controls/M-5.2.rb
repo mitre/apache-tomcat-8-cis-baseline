@@ -1,17 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-
-
 control "M-5.2" do
   title "5.2 Use LockOut Realms (Scored)"
   desc  "A LockOut realm wraps around standard realms adding the ability to

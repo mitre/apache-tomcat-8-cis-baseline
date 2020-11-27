@@ -1,23 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_server_built')= input(
-  'tomcat_server_built',
-  description: 'server.built value',
-  value: 'server.built=Oct 30 2017 10:21:55 UTC'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-
-
 control "M-2.3" do
   title "2.3 Alter the Advertised server.built Date (Scored)"
   desc  "The server.built date represents the date which Tomcat was compiled

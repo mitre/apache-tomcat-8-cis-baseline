@@ -1,29 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-input('tomcat_app_dir')= input(
-  'tomcat_app_dir',
-  description: 'location of tomcat app directory',
-  value: '/var/lib/tomcat'
-)
-
-TOMCAT_CONF_WEB= input(
-  'tomcat_conf_web',
-  description: 'location of tomcat web.xml',
-  value: '/usr/share/tomcat/conf/web.xml'
-)
-
-
-
 control "M-10.11" do
   title "10.11 Configure maxHttpHeaderSize (Scored)"
   desc  "The maxHttpHeaderSize limits the size of the request and response
@@ -49,7 +23,7 @@ maxHttpHeaderSize=”8192”
   desc 'default value', "maxHttpHeaderSize is set to 8192\n"
 
   begin
-    tomcat_conf = xml(TOMCAT_CONF_SERVER)
+    tomcat_conf = xml(input('tomcat_conf_server'))
 
       if tomcat_conf['Server/Service/Connector/attribute::maxHttpHeaderSize'].is_a?(Array)
         tomcat_conf['Server/Service/Connector/attribute::maxHttpHeaderSize'].each do |x|

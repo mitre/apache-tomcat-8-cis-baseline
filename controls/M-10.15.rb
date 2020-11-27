@@ -1,23 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-input('tomcat_app_dir')= input(
-  'tomcat_app_dir',
-  description: 'location of tomcat app directory',
-  value: '/var/lib/tomcat'
-)
-
-
-
 control "M-10.15" do
   title "10.15 Do not allow cross context requests (Scored)"
   desc  "Setting crossContext to true allows for an application to call

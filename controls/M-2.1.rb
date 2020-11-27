@@ -1,23 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_server_info')= input(
-  'tomcat_server_info',
-  description: 'server.info value',
-  value: 'server.info=Apache Tomcat/8.5.31'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-
-
 control "M-2.1" do
   title "2.1 Alter the Advertised server.info String (Scored)"
   desc  "The server.info attribute contains the name of the application

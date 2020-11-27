@@ -1,15 +1,3 @@
-input('tomcat_home')= input(
-  'tomcat_home',
-  description: 'location of tomcat home directory',
-  value: '/usr/share/tomcat'
-)
-
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
 control "M-1.2" do
   title "1.2 Disable Unused Connectors (Not Scored)"
   desc  "The default installation of Tomcat includes connectors with default

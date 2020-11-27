@@ -1,17 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-
-
 control "M-10.18" do
   title "10.18 Setting Security Lifecycle Listener (Scored)"
   desc  "The Security Lifecycle Listener performs a number of security checks
@@ -50,7 +36,7 @@ used. For minimumUmask, if not specified, the default\nvalue of 0007 is
 used.\n\n"
 
   begin
-    describe xml(TOMCAT_CONF_SERVER) do
+    describe xml(input('tomcat_conf_server')) do
       its('Server/Listener/attribute::className') { should include 'org.apache.catalina.security.SecurityListener' }
       its('Server/Listener/attribute::checkedOsUsers') { should include 'root' }
       its('Server/Listener/attribute::minimumUmask') { should cmp '0007' }

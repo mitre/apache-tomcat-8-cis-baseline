@@ -1,18 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-
-
-
 control "M-10.16" do
   title "10.16 Do not resolve hosts on logging valves (Scored)"
   desc  "Setting enableLookups to true on Connector requires a DNS look-up
@@ -36,7 +21,7 @@ or remove it.
   desc 'default value', "By default, DNS lookups are disabled.\n"
 
   begin
-    describe command("grep enableLookups #{TOMCAT_CONF_SERVER}") do
+    describe command("grep enableLookups #{input('tomcat_conf_server')}") do
       its('stdout') { should eq '' }
     end
   end

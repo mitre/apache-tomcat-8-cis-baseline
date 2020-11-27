@@ -1,17 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-
-
 control "M-10.17" do
   title "10.17 Enable memory leak listener (Scored)"
   desc  "The JRE Memory Leak Prevention Listener provides a work-around for
@@ -41,7 +27,7 @@ $CATALINA_HOME/conf/server.xml
 "
 
   begin
-    describe xml(TOMCAT_CONF_SERVER) do
+    describe xml(input('tomcat_conf_server')) do
       its('Server/Listener/attribute::className') { should include 'org.apache.catalina.core.JreMemoryLeakPreventionListener' }
     end
   end

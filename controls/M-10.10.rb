@@ -1,29 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-input('tomcat_app_dir')= input(
-  'tomcat_app_dir',
-  description: 'location of tomcat app directory',
-  value: '/var/lib/tomcat'
-)
-
-TOMCAT_CONF_WEB= input(
-  'tomcat_conf_web',
-  description: 'location of tomcat web.xml',
-  value: '/usr/share/tomcat/conf/web.xml'
-)
-
-
-
 control "M-10.10" do
   title "10.10 Configure connectionTimeout (Scored)"
   desc  "The connectionTimeout setting allows Tomcat to close idle sockets
@@ -51,7 +25,7 @@ connectionTimeout='60000'
   desc 'default value', "connectionTimeout is set to 60000\n"
 
   begin
-    tomcat_conf = xml(TOMCAT_CONF_SERVER)
+    tomcat_conf = xml(input('tomcat_conf_server'))
 
       if tomcat_conf['Server/Service/Connector/attribute::connectionTimeout'].is_a?(Array)
         tomcat_conf['Server/Service/Connector/attribute::connectionTimeout'].each do |x|

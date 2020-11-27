@@ -1,23 +1,3 @@
-input('tomcat_service_name')= input(
-  'tomcat_service_name',
-  description: 'Name of Tomcat service',
-  value: 'tomcat'
-)
-
-TOMCAT_CONF_SERVER= input(
-  'tomcat_conf_server',
-  description: 'Path to tomcat server.xml',
-  value: '/usr/share/tomcat/conf/server.xml'
-)
-
-input('tomcat_app_dir')= input(
-  'tomcat_app_dir',
-  description: 'location of tomcat app directory',
-  value: '/var/lib/tomcat'
-)
-
-
-
 control "M-10.14" do
   title "10.14 Do not run applications as privileged (Scored)"
   desc  "Setting the privileged attribute for an application changes the class
