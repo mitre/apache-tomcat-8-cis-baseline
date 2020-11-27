@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.13" do
   title "4.13 Restrict access to Tomcat tomcat-users.xml (Scored)"
   desc  "tomcat-users.xml contains authentication information for Tomcat

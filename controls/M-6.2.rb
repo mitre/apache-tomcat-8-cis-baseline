@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-6.2" do
   title "6.2 Ensure SSLEnabled is set to True for Sensitive Connectors (Not
 Scored)"

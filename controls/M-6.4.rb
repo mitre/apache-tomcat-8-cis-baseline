@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-6.4" do
   title "6.4 Ensure secure is set to true only for SSL-enabled Connectors
 (Scored)"

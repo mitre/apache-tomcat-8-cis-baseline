@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.7" do
   title "7.7 Configure log file size limit (Scored)"
   desc  "By default, the logging.properties file will have no defined limit for

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.13" do
   title "10.13 Do not allow symbolic linking (Scored)"
   desc  "Symbolic links allows one application to include the libraries from

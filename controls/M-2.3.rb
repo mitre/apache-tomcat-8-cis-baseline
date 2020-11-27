@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-2.3" do
   title "2.3 Alter the Advertised server.built Date (Scored)"
   desc  "The server.built date represents the date which Tomcat was compiled

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.4" do
   title "7.4 Ensure directory in context.xml is a secure location (Scored)"
   desc  "The directory attribute tells Tomcat where to store logs. It is

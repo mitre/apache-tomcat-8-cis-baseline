@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-1.2" do
   title "1.2 Disable Unused Connectors (Not Scored)"
   desc  "The default installation of Tomcat includes connectors with default

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.17" do
   title "10.17 Enable memory leak listener (Scored)"
   desc  "The JRE Memory Leak Prevention Listener provides a work-around for

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-3.2" do
   title "3.2 Disable the Shutdown port (Not Scored)"
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By

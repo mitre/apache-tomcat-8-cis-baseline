@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.6" do
   title "7.6 Ensure directory in logging.properties is a secure location
 (Scored)"

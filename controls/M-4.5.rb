@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.5" do
   title "4.5 Restrict access to Tomcat temp directory (Scored)"
   desc  "The Tomcat $CATALINA_HOME/temp/ directory is used by Tomcat to persist

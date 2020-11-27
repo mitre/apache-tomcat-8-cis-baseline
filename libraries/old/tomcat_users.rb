@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 require 'happymapper'
 require 'inspec/utils/file_reader'
 

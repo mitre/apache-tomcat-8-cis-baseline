@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.8" do
   title "10.8 Do not allow additional path delimiters (Scored)"
   desc  "Being able to specify different path-delimiters on Tomcat creates the

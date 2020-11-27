@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.1" do
   title "10.1 Ensure Web content directory is on a separate partition from the
 Tomcat system files (Not Scored)"

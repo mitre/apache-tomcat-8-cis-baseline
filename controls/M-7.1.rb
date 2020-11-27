@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.1" do
   title "7.1 Application specific logging (Scored)"
   desc  "By default, java.util.logging does not provide the capabilities to

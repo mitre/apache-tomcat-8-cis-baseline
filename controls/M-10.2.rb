@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.2" do
   title "10.2 Restrict access to the web administration (Not Scored)"
   desc  "Limit access to the web administration application to only those with

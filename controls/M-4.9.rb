@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.9" do
   title "4.9 Restrict access to Tomcat catalina.properties (Scored)"
   desc  "catalina.properties is a Java properties files that contains settings

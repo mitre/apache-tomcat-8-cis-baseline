@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.4" do
   title "10.4 Force SSL when accessing the manager application (Scored)"
   desc  "Use the transport-guarantee attribute to ensure SSL protection when

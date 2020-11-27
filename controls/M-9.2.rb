@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-9.2" do
   title "9.2 Disabling auto deployment of applications (Scored)"
   desc  "Tomcat allows auto deployment of applications while Tomcat is running.

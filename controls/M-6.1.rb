@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-6.1" do
   title "6.1 Setup Client-cert Authentication (Scored)"
   desc  "Client-cert authentication requires that each client connecting to the

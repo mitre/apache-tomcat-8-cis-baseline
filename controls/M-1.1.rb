@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-1.1" do
   title "1.1 Remove extraneous files and directories (Scored)"
   desc  "The installation may provide example applications, documentation, and

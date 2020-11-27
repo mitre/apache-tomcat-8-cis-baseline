@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.19" do
   title "10.19 use the logEffectiveWebXml and metadata-complete settings for
 deploying applications in production (Scored)"

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-2.1" do
   title "2.1 Alter the Advertised server.info String (Scored)"
   desc  "The server.info attribute contains the name of the application

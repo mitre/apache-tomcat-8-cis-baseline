@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.6" do
   title "4.6 Restrict access to Tomcat binaries directory (Scored)"
   desc  "The Tomcat $CATALINA_HOME/bin/ directory contains executes that are

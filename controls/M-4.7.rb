@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.7" do
   title "4.7 Restrict access to Tomcat web application directory (Scored)"
   desc  "The Tomcat $CATALINA_HOME/webapps directory contains web applications

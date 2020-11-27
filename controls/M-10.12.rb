@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.12" do
   title "10.12 Force SSL for all applications (Scored)"
   desc  "Use the transport-guarantee attribute to ensure SSL protection when

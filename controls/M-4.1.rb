@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.1" do
   title "4.1 Restrict access to $CATALINA_HOME (Scored)"
   desc  "$CATALINA_HOME is the environment variable which holds the path to the

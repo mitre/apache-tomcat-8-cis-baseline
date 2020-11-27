@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.15" do
   title "10.15 Do not allow cross context requests (Scored)"
   desc  "Setting crossContext to true allows for an application to call

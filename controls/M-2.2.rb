@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-2.2" do
   title "2.2 Alter the Advertised server.number String (Scored)"
   desc  "The server.number attribute represents the specific version of Tomcat

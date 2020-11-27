@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.16" do
   title "10.16 Do not resolve hosts on logging valves (Scored)"
   desc  "Setting enableLookups to true on Connector requires a DNS look-up

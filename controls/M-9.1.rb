@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-9.1" do
   title "9.1 Starting Tomcat with Security Manager (Scored)"
   desc  "Configure application to run in a sandbox using the Security Manager.

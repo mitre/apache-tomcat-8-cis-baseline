@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.5" do
   title "10.5 Rename the manager application (Scored)"
   desc  "The manager application allows administrators to manage Tomcat

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.10" do
   title "10.10 Configure connectionTimeout (Scored)"
   desc  "The connectionTimeout setting allows Tomcat to close idle sockets

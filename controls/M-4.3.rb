@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.3" do
   title "4.3 Restrict access to Tomcat configuration directory (Scored)"
   desc  "The Tomcat $CATALINA_HOME/conf/ directory contains Tomcat

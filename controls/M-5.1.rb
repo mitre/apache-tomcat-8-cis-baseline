@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-5.1" do
   title "5.1 Use secure Realms (Scored)"
   desc  "A realm is a database of usernames and passwords used to identify

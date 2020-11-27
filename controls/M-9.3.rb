@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-9.3" do
   title "9.3 Disable deploy on startup of applications (Scored)"
   desc  "Tomcat allows auto deployment of applications. It is recommended that

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.11" do
   title "4.11 Restrict access to Tomcat logging.properties (Scored)"
   desc  "logging.properties is a Tomcat files which specifies the logging

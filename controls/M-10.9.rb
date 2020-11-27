@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.9" do
   title "10.9 Do not allow custom header status messages (Scored)"
   desc  "Being able to specify custom status messages opens up the possibility

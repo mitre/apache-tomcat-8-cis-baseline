@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.11" do
   title "10.11 Configure maxHttpHeaderSize (Scored)"
   desc  "The maxHttpHeaderSize limits the size of the request and response

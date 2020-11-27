@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.14" do
   title "4.14 Restrict access to Tomcat web.xml (Scored)"
   desc  "web.xml is a Tomcat configuration file that stores application

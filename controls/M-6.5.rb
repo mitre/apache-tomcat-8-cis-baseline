@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-6.5" do
   title "6.5 Ensure SSL Protocol is set to TLS for Secure Connectors (Scored)"
   desc  "The sslProtocol setting determines which protocol Tomcat will use to

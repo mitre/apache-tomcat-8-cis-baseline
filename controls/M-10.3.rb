@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.3" do
   title "10.3 Restrict manager application (Not Scored)"
   desc  "Limit access to the manager application to only those with a required

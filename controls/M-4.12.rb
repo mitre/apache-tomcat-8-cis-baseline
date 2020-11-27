@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.12" do
   title "4.12 Restrict access to Tomcat server.xml (Scored)"
   desc  "server.xml contains Tomcat servlet definitions and configurations. It

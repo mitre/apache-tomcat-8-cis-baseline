@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-6.3" do
   title "6.3 Ensure scheme is set accurately (Scored)"
   desc  "The scheme attribute is used to indicate to callers of

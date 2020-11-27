@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.10" do
   title "4.10 Restrict access to Tomcat context.xml (Scored)"
   desc  "The context.xml file is loaded by all web applications and sets

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 
 require 'inspec/utils/file_reader'
 require 'inspec/utils/simpleconfig'

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-2.5" do
   title "2.5 Disable client facing Stack Traces (Scored)"
   desc  "When a runtime error occurs during request processing, Apache Tomcat

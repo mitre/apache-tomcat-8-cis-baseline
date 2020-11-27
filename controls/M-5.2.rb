@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-5.2" do
   title "5.2 Use LockOut Realms (Scored)"
   desc  "A LockOut realm wraps around standard realms adding the ability to

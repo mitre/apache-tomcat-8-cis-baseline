@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.6" do
   title "10.6 Enable strict servlet Compliance (Scored)"
   desc  "The STRICT_SERVLET_COMPLIANCE influences Tomcat’s behavior in several

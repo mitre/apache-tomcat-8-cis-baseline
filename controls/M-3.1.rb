@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-3.1" do
   title "3.1 Set a nondeterministic Shutdown command value (Scored)"
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By

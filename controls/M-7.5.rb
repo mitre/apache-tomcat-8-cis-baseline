@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.5" do
   title "7.5 Ensure pattern in context.xml is correct (Scored)"
   desc  "The pattern setting informs Tomcat what information should be logged

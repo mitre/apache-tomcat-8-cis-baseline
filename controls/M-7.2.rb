@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.2" do
   title "7.2 Specify file handler in logging.properties files (Scored)"
   desc  "Handlers specify where log messages are sent. Console handlers send

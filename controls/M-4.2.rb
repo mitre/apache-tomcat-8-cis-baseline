@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.2" do
   title "4.2 Restrict access to $CATALINA_BASE (Scored)"
   desc  "$CATALINA_BASE is the environment variable that specifies the base

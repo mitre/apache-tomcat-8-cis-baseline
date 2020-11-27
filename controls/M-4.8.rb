@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.8" do
   title "4.8 Restrict access to Tomcat catalina.policy (Scored)"
   desc  "The catalina.policy file is used to configure security policies for

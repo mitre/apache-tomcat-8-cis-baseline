@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-7.3" do
   title "7.3 Ensure className is set correctly in context.xml (Scored)"
   desc  "Ensure the className attribute is set to AccessLogValve. The className

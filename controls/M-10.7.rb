@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.7" do
   title "10.7 Turn off session façade recycling (Scored)"
   desc  "The RECYCLE_FACADES can specify if a new façade will be created for

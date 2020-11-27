@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.18" do
   title "10.18 Setting Security Lifecycle Listener (Scored)"
   desc  "The Security Lifecycle Listener performs a number of security checks

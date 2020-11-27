@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-4.4" do
   title "4.4 Restrict access to Tomcat logs directory (Scored)"
   desc  "The Tomcat $CATALINA_HOME/logs/ directory contains Tomcat logs. It is

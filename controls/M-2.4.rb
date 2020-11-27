@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-2.4" do
   title "2.4 Disable X-Powered-By HTTP Header and Rename the Server Value for
 all Connectors (Scored)"

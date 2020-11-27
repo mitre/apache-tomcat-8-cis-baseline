@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-8.1" do
   title "8.1 Restrict runtime access to sensitive packages (Scored)"
   desc  "package.access grants or revokes access to listed packages during

@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-10.14" do
   title "10.14 Do not run applications as privileged (Scored)"
   desc  "Setting the privileged attribute for an application changes the class

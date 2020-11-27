@@ -1,3 +1,4 @@
+# -*- encoding : utf-8 -*-
 control "M-2.6" do
   title "2.6 Turn off TRACE (Scored)"
   desc  "The HTTP TRACE verb provides debugging and diagnostics information for
