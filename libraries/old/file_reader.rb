@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# frozen_string_literal: true
+
 # author: ERAMOTO Masaya
 
 module FileReader
@@ -7,18 +8,12 @@ module FileReader
     # pre-refactor (which used skip_resource). These should likely be changed to
     # ResourceFailed during a major version bump.
     file = inspec.file(path)
-    if !file.file?
-      raise Inspec::Exceptions::ResourceSkipped, "Can't find file: #{path}"
-    end
+    raise Inspec::Exceptions::ResourceSkipped, "Can't find file: #{path}" unless file.file?
 
     raw_content = file.content
-    if raw_content.nil?
-      raise Inspec::Exceptions::ResourceSkipped, "Can't read file: #{path}"
-    end
+    raise Inspec::Exceptions::ResourceSkipped, "Can't read file: #{path}" if raw_content.nil?
 
-    if !allow_empty && raw_content.empty?
-      raise Inspec::Exceptions::ResourceSkipped, "File is empty: #{path}"
-    end
+    raise Inspec::Exceptions::ResourceSkipped, "File is empty: #{path}" if !allow_empty && raw_content.empty?
 
     raw_content
   end

@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-3.1" do
-  title "3.1 Set a nondeterministic Shutdown command value (Scored)"
+# frozen_string_literal: true
+
+control 'M-3.1' do
+  title '3.1 Set a nondeterministic Shutdown command value (Scored)'
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By
 connecting to this port and sending the SHUTDOWN command, all applications
 within Tomcat are halted. The shutdown port is not exposed to the network as it
@@ -9,10 +10,10 @@ value be set for the shutdown attribute in $CATALINA_HOME/conf/server.xml.
 Setting the shutdown attribute to a nondeterministic value will prevent
 malicious local users from shutting down Tomcat. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/config/server.html"
-  tag "severity": "medium"
-  tag "cis_id": "3.1"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "ref": '1. http://tomcat.apache.org/tomcat-8.0-doc/config/server.html'
+  tag "severity": 'medium'
+  tag "cis_id": '3.1'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to determine if the shutdown port is
 configured to use the default

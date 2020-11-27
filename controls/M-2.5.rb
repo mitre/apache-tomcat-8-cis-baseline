@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-2.5" do
-  title "2.5 Disable client facing Stack Traces (Scored)"
+# frozen_string_literal: true
+
+control 'M-2.5' do
+  title '2.5 Disable client facing Stack Traces (Scored)'
   desc  "When a runtime error occurs during request processing, Apache Tomcat
 will display debugging information to the requestor. It is recommended that
 such debug information be withheld from the requestor. Debugging information,
@@ -11,9 +12,9 @@ is reduced. "
   impact 0.5
   tag "ref": "1.
 https://tomcat.apache.org/tomcat-8.0doc/api/org/apache/tomcat/util/descriptor/web/ErrorPage.html"
-  tag "severity": "medium"
-  tag "cis_id": "2.5"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '2.5'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to determine if Tomcat is configured
 to prevent sending debug
@@ -56,48 +57,48 @@ provide debug information to\nthe requestor by default.\n"
   errorIter = 1
   if web_conf['web-app/error-page'].is_a?(Array)
     numConnectors = web_conf['web-app/error-page'].count
-    until errorIter > numConnectors  do
-       describe web_conf["web-app/error-page[#{errorIter}]"] do
-         it { should_not eq [] }
-       end
-       describe web_conf["web-app/error-page[#{errorIter}]/exception-type"] do
-         it { should cmp "java.lang.Throwable"}
-       end
-       describe web_conf["web-app/error-page[#{errorIter}]/location"] do
-         it { should_not eq [] }
-       end
-       errorIter +=1
-     end
-    if !web_conf['web-app/error-page'].any?
-     describe web_conf["web-app/error-page"] do
-       it { should_not eq [] }
-     end
-   end
+    until errorIter > numConnectors
+      describe web_conf["web-app/error-page[#{errorIter}]"] do
+        it { should_not eq [] }
+      end
+      describe web_conf["web-app/error-page[#{errorIter}]/exception-type"] do
+        it { should cmp 'java.lang.Throwable' }
+      end
+      describe web_conf["web-app/error-page[#{errorIter}]/location"] do
+        it { should_not eq [] }
+      end
+      errorIter += 1
+    end
+    if web_conf['web-app/error-page'].none?
+      describe web_conf['web-app/error-page'] do
+        it { should_not eq [] }
+      end
+    end
   end
 
   # Query the web.xml for each webapp
   command("find #{input('tomcat_home')}/webapps/ ! -path #{input('tomcat_home')}/webapps/ -type d -maxdepth 1").stdout.split.each do |webappname|
     webapp_conf = xml("#{webappname}/WEB-INF/web.xml")
     webAppIter = 1
-    if webapp_conf['web-app/error-page'].is_a?(Array)
-      numConnectors = webapp_conf['web-app/error-page'].count
-      until webAppIter > numConnectors  do
-         describe webapp_conf["web-app/error-page[#{webAppIter}]"] do
-           it { should_not eq [] }
-         end
-         describe webapp_conf["web-app/error-page[#{webAppIter}]/exception-type"] do
-           it { should cmp "java.lang.Throwable"}
-         end
-         describe webapp_conf["web-app/error-page[#{webAppIter}]/location"] do
-           it { should_not eq [] }
-         end
-         webAppIter +=1
-       end
-      if !webapp_conf['web-app/error-page'].any?
-       describe webapp_conf["web-app/error-page"] do
-         it { should_not eq [] }
-       end
-     end
+    next unless webapp_conf['web-app/error-page'].is_a?(Array)
+
+    numConnectors = webapp_conf['web-app/error-page'].count
+    until webAppIter > numConnectors
+      describe webapp_conf["web-app/error-page[#{webAppIter}]"] do
+        it { should_not eq [] }
+      end
+      describe webapp_conf["web-app/error-page[#{webAppIter}]/exception-type"] do
+        it { should cmp 'java.lang.Throwable' }
+      end
+      describe webapp_conf["web-app/error-page[#{webAppIter}]/location"] do
+        it { should_not eq [] }
+      end
+      webAppIter += 1
+    end
+    next unless webapp_conf['web-app/error-page'].none?
+
+    describe webapp_conf['web-app/error-page'] do
+      it { should_not eq [] }
     end
   end
 end

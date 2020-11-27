@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-10.18" do
-  title "10.18 Setting Security Lifecycle Listener (Scored)"
+# frozen_string_literal: true
+
+control 'M-10.18' do
+  title '10.18 Setting Security Lifecycle Listener (Scored)'
   desc  "The Security Lifecycle Listener performs a number of security checks
 when Tomcat starts and prevents Tomcat from starting if they fail. Enable the
 Security Lifecycle Listener can Enforce a blacklist of OS users that must not
@@ -8,9 +9,9 @@ be used to start Tomcat. set the least restrictive umask before Tomcat start "
   impact 0.5
   tag "ref": "1.
 https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#Security_Lifecycle_Listener__org.apache.catalina.security.SecurityListener"
-  tag "severity": "medium"
-  tag "cis_id": "10.18"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '10.18'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Review server.xml to ensure the Security Lifecycle
 Listener element is uncommented and
@@ -36,11 +37,9 @@ default. For checkedOsUsers, If not\nspecified, the default value of root is
 used. For minimumUmask, if not specified, the default\nvalue of 0007 is
 used.\n\n"
 
-  begin
-    describe xml(input('tomcat_conf_server')) do
-      its('Server/Listener/attribute::className') { should include 'org.apache.catalina.security.SecurityListener' }
-      its('Server/Listener/attribute::checkedOsUsers') { should include 'root' }
-      its('Server/Listener/attribute::minimumUmask') { should cmp '0007' }
-    end
+  describe xml(input('tomcat_conf_server')) do
+    its('Server/Listener/attribute::className') { should include 'org.apache.catalina.security.SecurityListener' }
+    its('Server/Listener/attribute::checkedOsUsers') { should include 'root' }
+    its('Server/Listener/attribute::minimumUmask') { should cmp '0007' }
   end
 end

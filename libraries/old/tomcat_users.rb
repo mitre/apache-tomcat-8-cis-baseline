@@ -1,35 +1,37 @@
-# -*- encoding : utf-8 -*-
+# frozen_string_literal: true
+
 require 'happymapper'
 require 'inspec/utils/file_reader'
 
-module Inspec::Resources
-  class TomcatUsers < Inspec.resource(1)
-    name 'tomcat_users'
-    supports platform: 'unix'
-    supports platform: 'windows'
-    desc 'Use the tomcat_users_conf InSpec audit resource to test the contents
+module Inspec
+  module Resources
+    class TomcatUsers < Inspec.resource(1)
+      name 'tomcat_users'
+      supports platform: 'unix'
+      supports platform: 'windows'
+      desc 'Use the tomcat_users_conf InSpec audit resource to test the contents
           of the configuration file for PostgreSQL, typically located at
           /etc/postgresql/<version>/main/postgresql.conf or
           /var/lib/postgres/data/postgresql.conf, depending on the platform.'
-    example "
+      example "
       describe postgres_conf do
         its('max_connections') { should eq '5' }
       end
     "
 
-    # include FileReader
+      # include FileReader
 
-    def initialize(conf_path = nil)
-      @conf_path = conf_path || '/usr/share/tomcat/conf/tomcat-users.xml'
-      if @conf_path.nil?
-        return skip_resource 'The tomcat conf path is not set'
+      def initialize(conf_path = nil)
+        @conf_path = conf_path || '/usr/share/tomcat/conf/tomcat-users.xml'
+        return skip_resource 'The tomcat conf path is not set' if @conf_path.nil?
+
+        @conf_dir = File.expand_path(File.dirname(@conf_path))
+        @files_contents = {}
+        @content = File.read(conf_path)
+        @params = TomcatUsers.parse(content)
+        read_content
+        content = read_file_content(conf_path)
       end
-      @conf_dir = File.expand_path(File.dirname(@conf_path))
-      @files_contents = {}
-      @content = File.read(conf_path)
-      @params = TomcatUsers.parse(content)
-      read_content
-      content = read_file_content(conf_path)
     end
   end
 end

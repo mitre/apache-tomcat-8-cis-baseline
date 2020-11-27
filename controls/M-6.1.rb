@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-6.1" do
-  title "6.1 Setup Client-cert Authentication (Scored)"
+# frozen_string_literal: true
+
+control 'M-6.1' do
+  title '6.1 Setup Client-cert Authentication (Scored)'
   desc  "Client-cert authentication requires that each client connecting to the
 server has a certificate used to authenticate. This is generally regarded as
 strong authentication than a password as it requires the client to have the
@@ -9,9 +10,9 @@ secure than password based authentication. "
   impact 0.5
   tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/http.html 2.
 http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html"
-  tag "severity": "medium"
-  tag "cis_id": "6.1"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '6.1'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Review the Connector configuration in server.xml and
 ensure the clientAuth parameter is
@@ -27,15 +28,11 @@ clientAuth='true' sslProtocol='TLS'/>
 "
   desc 'default value', "Not configured\n"
 
-  begin
-    tomcat_server = tomcat_server_xml("#{input('tomcat_conf_server')}")
+  tomcat_server = tomcat_server_xml(input('tomcat_conf_server').to_s)
 
-    tomcat_server.params.each do |connector|
-      describe connector do
-        if connector[:secure] == 'true'
-          its([:clientauth]) { should cmp 'true' }
-        end
-      end
+  tomcat_server.params.each do |connector|
+    describe connector do
+      its([:clientauth]) { should cmp 'true' } if connector[:secure] == 'true'
     end
   end
 end

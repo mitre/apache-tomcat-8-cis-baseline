@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-4.2" do
-  title "4.2 Restrict access to $CATALINA_BASE (Scored)"
+# frozen_string_literal: true
+
+control 'M-4.2' do
+  title '4.2 Restrict access to $CATALINA_BASE (Scored)'
   desc  "$CATALINA_BASE is the environment variable that specifies the base
 directory which most relative paths are resolved. $CATALINA_BASE is usually
 used when there is multiple instances of Tomcat running. It is important to
@@ -12,9 +13,9 @@ permission on $CATALINA_BASE prevent read, write, and execute for the world
 and data that traverse or depend on Tomcat may become compromised if the
 $CATALINA_BASE is not secured. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "4.2"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '4.2'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to ensure the permission on the
 $CATALINA_BASE directory prevent
@@ -31,9 +32,9 @@ execute permissions for the world Remove write permissions for the group.
 # chown tomcat_admin.tomcat $CATALINA_BASE
 # chmod g-w,o-rwx $CATALINA_BASE"
 
-  describe directory("#{input('tomcat_base')}") do
-    its('owner') { should cmp "#{input('tomcat_owner')}" }
-    its('group') { should cmp "#{input('tomcat_group')}" }
+  describe directory(input('tomcat_base').to_s) do
+    its('owner') { should cmp input('tomcat_owner').to_s }
+    its('group') { should cmp input('tomcat_group').to_s }
     its('mode') { should cmp '0750' }
   end
 end

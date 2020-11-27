@@ -1,5 +1,6 @@
-# -*- encoding : utf-8 -*-
-control "M-6.4" do
+# frozen_string_literal: true
+
+control 'M-6.4' do
   title "6.4 Ensure secure is set to true only for SSL-enabled Connectors
 (Scored)"
   desc  "The secure attribute is used to convey Connector security status to
@@ -12,9 +13,9 @@ that are not in place. "
   impact 0.5
   tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html 2.
 http://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
-  tag "severity": "medium"
-  tag "cis_id": "6.4"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '6.4'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Review server.xml and ensure the secure attribute is set
 to true for those Connectors
@@ -35,15 +36,11 @@ secure='true'
 "
   desc 'default value', "The secure attribute is set to false.\n"
 
-  begin
-    tomcat_server = tomcat_server_xml("#{input('tomcat_conf_server')}")
+  tomcat_server = tomcat_server_xml(input('tomcat_conf_server').to_s)
 
-    tomcat_server.params.each do |connector|
-      describe connector do
-        if connector[:sslenable] == "true"
-          its([:secure]) { should cmp 'true' }
-        end
-      end
+  tomcat_server.params.each do |connector|
+    describe connector do
+      its([:secure]) { should cmp 'true' } if connector[:sslenable] == 'true'
     end
   end
 end

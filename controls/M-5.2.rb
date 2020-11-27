@@ -1,15 +1,16 @@
-# -*- encoding : utf-8 -*-
-control "M-5.2" do
-  title "5.2 Use LockOut Realms (Scored)"
+# frozen_string_literal: true
+
+control 'M-5.2' do
+  title '5.2 Use LockOut Realms (Scored)'
   desc  "A LockOut realm wraps around standard realms adding the ability to
 lock a user out after multiple failed logins. Locking out a user after multiple
 failed logins slows down attackers from brute forcing logins. "
   impact 0.5
   tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/realm-howto.html 2.
 http://tomcat.apache.org/tomcat-8.0-doc/config/realm.html"
-  tag "severity": "medium"
-  tag "cis_id": "5.2"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '5.2'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Perform the following to check to see if a LockOut realm
 is being used:
@@ -26,7 +27,7 @@ dataSourceName=... />
 </Realm>
 "
 
-  lockoutRealm = "org.apache.catalina.realm.LockOutRealm"
+  lockoutRealm = 'org.apache.catalina.realm.LockOutRealm'
 
   describe.one do
     describe xml("#{input('tomcat_home')}/conf/server.xml") do

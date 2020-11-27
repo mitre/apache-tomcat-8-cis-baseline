@@ -1,4 +1,5 @@
-# -*- encoding : utf-8 -*-
+# frozen_string_literal: true
+
 require 'happymapper'
 require 'inspec/utils/file_reader'
 
@@ -43,7 +44,6 @@ class Connector
   attribute :secure, String, tag: 'secure'
 end
 
-
 class Service
   include HappyMapper
   tag 'Service'
@@ -51,7 +51,6 @@ class Service
   attribute :name, String, tag: 'name'
   has_many :connectors, Connector, tag: 'Connector'
 end
-
 
 # class Engine
 #
@@ -102,17 +101,19 @@ class TomcatServerXml < Inspec.resource(1)
   end
 
   def fetch_connectors
-    @tomcat_server.service.connectors.each { |connector| @params <<
-      {
-        port: connector.port,
-        protocol: connector.protocol,
-        timeout: connector.timeout,
-        redirect: connector.redirectport,
-        sslprotocol: connector.sslprotocol,
-        scheme: connector.scheme,
-        sslenable: connector.sslenable,
-        clientauth: connector.clientauth,
-        secure: connector.secure
-      }}
+    @tomcat_server.service.connectors.each do |connector|
+      @params <<
+        {
+          port: connector.port,
+          protocol: connector.protocol,
+          timeout: connector.timeout,
+          redirect: connector.redirectport,
+          sslprotocol: connector.sslprotocol,
+          scheme: connector.scheme,
+          sslenable: connector.sslenable,
+          clientauth: connector.clientauth,
+          secure: connector.secure
+        }
+    end
   end
 end

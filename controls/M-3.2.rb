@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-3.2" do
-  title "3.2 Disable the Shutdown port (Not Scored)"
+# frozen_string_literal: true
+
+control 'M-3.2' do
+  title '3.2 Disable the Shutdown port (Not Scored)'
   desc  "Tomcat listens on TCP port 8005 to accept shutdown requests. By
 connecting to this port and sending the SHUTDOWN command, all applications
 within Tomcat are halted. The shutdown port is not exposed to the network as it
@@ -9,10 +10,10 @@ recommended that the Shutdown port be disabled. Disabling the Shutdown port
 will eliminate the risk of malicious local entities using the shutdown command
 to disable the Tomcat server. "
   impact 0.5
-  tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/config/server.html"
-  tag "severity": "medium"
-  tag "cis_id": "3.2"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "ref": '1. http://tomcat.apache.org/tomcat-8.0-doc/config/server.html'
+  tag "severity": 'medium'
+  tag "cis_id": '3.2'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Perform the following to determine if the shutdown port
 has been disabled: Ensure the port attribute in $CATALINA_HOME/conf/server.xml

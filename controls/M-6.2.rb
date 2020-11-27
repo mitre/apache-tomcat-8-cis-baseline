@@ -1,5 +1,6 @@
-# -*- encoding : utf-8 -*-
-control "M-6.2" do
+# frozen_string_literal: true
+
+control 'M-6.2' do
   title "6.2 Ensure SSLEnabled is set to True for Sensitive Connectors (Not
 Scored)"
   desc  "The SSLEnabled setting determines if SSL is enabled for a specific
@@ -11,9 +12,9 @@ in transit. "
   impact 0.5
   tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/ssl-howto.html 2.
 https://tomcat.apache.org/tomcat-8.0-doc/config/http.html"
-  tag "severity": "medium"
-  tag "cis_id": "6.2"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '6.2'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Review server.xml and ensure all Connectors sending or
 receiving sensitive information
@@ -30,21 +31,17 @@ SSLEnabled='true'
 "
   desc 'default value', "SSLEnabled is set to false.\n"
 
-  begin
-    tomcat_server = tomcat_server_xml("#{input('tomcat_conf_server')}")
+  tomcat_server = tomcat_server_xml(input('tomcat_conf_server').to_s)
 
-    # remove any non secure connectors first
-    tomcat_server.params.each do |connector|
-      if connector[:protocol] == "HTTP/1.1" || connector[:protocol] == "AJP/1.3"
-        tomcat_server.params.delete(connector)
-      end
-    end
+  # remove any non secure connectors first
+  tomcat_server.params.each do |connector|
+    tomcat_server.params.delete(connector) if connector[:protocol] == 'HTTP/1.1' || connector[:protocol] == 'AJP/1.3'
+  end
 
-    # check remaining connectors for sslenable attribute
-    tomcat_server.params.each do |connector|
-      describe connector do
-        its([:sslenable]) { should cmp 'true' }
-      end
+  # check remaining connectors for sslenable attribute
+  tomcat_server.params.each do |connector|
+    describe connector do
+      its([:sslenable]) { should cmp 'true' }
     end
   end
 end

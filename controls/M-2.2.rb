@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-2.2" do
-  title "2.2 Alter the Advertised server.number String (Scored)"
+# frozen_string_literal: true
+
+control 'M-2.2' do
+  title '2.2 Alter the Advertised server.number String (Scored)'
   desc  "The server.number attribute represents the specific version of Tomcat
 that is executing. This value is presented to Tomcat clients when connect.
 Advertising a valid server version may provide attackers with information
@@ -8,9 +9,9 @@ useful for locating vulnerabilities that affect the server platform. Altering
 the server version string may make it harder for attackers to determine which
 vulnerabilities affect the server platform. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "2.2"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '2.2'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Perform the following to determine if the server.number
 value has been changed: Extract the ServerInfo.properties file and examine the
@@ -36,8 +37,8 @@ $ jar uf catalina.jar org/apache/catalina/util/ServerInfo.properties
   desc 'default value', "The default value for the server.number attribute is a
 four part version number, such as\n5.5.20.0."
 
-#@TODO Make this an active and passive test 
+  # @TODO Make this an active and passive test
   describe command("unzip -p #{input('tomcat_home')}/lib/catalina.jar org/apache/catalina/util/ServerInfo.properties | grep server.number") do
-    its('stdout.strip') { should cmp "#{input('tomcat_server_number')}" }
+    its('stdout.strip') { should cmp input('tomcat_server_number').to_s }
   end
 end

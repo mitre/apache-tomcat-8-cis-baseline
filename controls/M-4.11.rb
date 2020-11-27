@@ -1,15 +1,16 @@
-# -*- encoding : utf-8 -*-
-control "M-4.11" do
-  title "4.11 Restrict access to Tomcat logging.properties (Scored)"
+# frozen_string_literal: true
+
+control 'M-4.11' do
+  title '4.11 Restrict access to Tomcat logging.properties (Scored)'
   desc  "logging.properties is a Tomcat files which specifies the logging
 configuration. It is recommended that access to this file has the proper
 permissions to properly protect from unauthorized changes. Restricting access
 to this file will prevent local users from maliciously or inadvertently
 altering Tomcat’s security policy. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "4.11"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '4.11'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to determine if the ownership and
 permissions on
@@ -29,11 +30,11 @@ Remove write permissions for the group.
 # chmod g-w,o-rwx $CATALINA_HOME/conf/logging.properties
 
 "
-  desc 'default value', "The default permissions are 600."
+  desc 'default value', 'The default permissions are 600.'
 
   describe file("#{input('tomcat_home')}/conf/logging.properties") do
-    its('owner') { should cmp "#{input('tomcat_owner')}" }
-    its('group') { should cmp "#{input('tomcat_group')}" }
+    its('owner') { should cmp input('tomcat_owner').to_s }
+    its('group') { should cmp input('tomcat_group').to_s }
     its('mode') { should cmp '0750' }
   end
 end

@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-10.3" do
-  title "10.3 Restrict manager application (Not Scored)"
+# frozen_string_literal: true
+
+control 'M-10.3' do
+  title '10.3 Restrict manager application (Not Scored)'
   desc  "Limit access to the manager application to only those with a required
 needed. Limiting access to the least privilege required will ensure only those
 people with required need have access to a resource. The manager application
@@ -8,9 +9,9 @@ should be limited to only administrators. "
   impact 0.5
   tag "ref": "1. https://tomcat.apache.org/tomcat-8.0-doc/config/valve.html 2.
 https://tomcat.apache.org/tomcat-8.0-doc/manager-howto.html"
-  tag "severity": "medium"
-  tag "cis_id": "10.3"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '10.3'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Review
 $CATALINA_BASE/conf/[enginename]/[hostname]/manager.xml to ascertain that
@@ -37,12 +38,10 @@ other regular expression meta-characters must be escaped.
 "
   desc 'default value', "By default, this setting is not present\n"
 
-  begin
-    manager_xml = command("find /usr/share/tomcat/conf/ -name manager.xml").stdout.split.each do |man_xml|
-      describe xml(man_xml) do
-        its('Context/Valve/attribute::className') { should include "org.apache.catalina.valves.RemoteAddrValve" }
-        its('Context/Valve/attribute::allow') { should_not cmp [] }
-      end
+  manager_xml = command('find /usr/share/tomcat/conf/ -name manager.xml').stdout.split.each do |man_xml|
+    describe xml(man_xml) do
+      its('Context/Valve/attribute::className') { should include 'org.apache.catalina.valves.RemoteAddrValve' }
+      its('Context/Valve/attribute::allow') { should_not cmp [] }
     end
   end
 end

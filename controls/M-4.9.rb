@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-4.9" do
-  title "4.9 Restrict access to Tomcat catalina.properties (Scored)"
+# frozen_string_literal: true
+
+control 'M-4.9' do
+  title '4.9 Restrict access to Tomcat catalina.properties (Scored)'
   desc  "catalina.properties is a Java properties files that contains settings
 for Tomcat including class loader information, security package lists, and
 performance properties. It is recommended that access to this file has the
@@ -8,9 +9,9 @@ proper permissions to properly protect from unauthorized changes. Restricting
 access to this file will prevent local users from maliciously or inadvertently
 altering Tomcat’s security policy. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "4.9"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '4.9'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to determine if the ownership and
 permissions on
@@ -35,8 +36,8 @@ Remove write permissions for the group.
 600."
 
   describe file("#{input('tomcat_home')}/conf/catalina.properties") do
-    its('owner') { should cmp "#{input('tomcat_owner')}" }
-    its('group') { should cmp "#{input('tomcat_group')}" }
+    its('owner') { should cmp input('tomcat_owner').to_s }
+    its('group') { should cmp input('tomcat_group').to_s }
     its('mode') { should cmp '0750' }
   end
 end

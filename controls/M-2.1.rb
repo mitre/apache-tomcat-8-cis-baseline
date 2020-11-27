@@ -1,15 +1,16 @@
-# -*- encoding : utf-8 -*-
-control "M-2.1" do
-  title "2.1 Alter the Advertised server.info String (Scored)"
+# frozen_string_literal: true
+
+control 'M-2.1' do
+  title '2.1 Alter the Advertised server.info String (Scored)'
   desc  "The server.info attribute contains the name of the application
 service. This value is presented to Tomcat clients when clients connect to the
 tomcat server. Altering the server.info attribute may make it harder for
 attackers to determine which vulnerabilities affect the server platform. "
   impact 0.5
-  tag "ref": "1. http://www.owasp.org/index.php/Securing_tomcat"
-  tag "severity": "medium"
-  tag "cis_id": "2.1"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "ref": '1. http://www.owasp.org/index.php/Securing_tomcat'
+  tag "severity": 'medium'
+  tag "cis_id": '2.1'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Perform the following to determine if the server.info
 value has been changed: Extract the ServerInfo.properties file and examine the
@@ -36,6 +37,6 @@ $ jar uf catalina.jar org/apache/catalina/util/ServerInfo.properties
 Apache Tomcat/.. For example, Apache\nTomcat/7.0.\n"
 
   describe command("unzip -p #{input('tomcat_home')}/lib/catalina.jar org/apache/catalina/util/ServerInfo.properties | grep server.info") do
-    its('stdout.strip') { should cmp "#{input('tomcat_server_info')}" }
+    its('stdout.strip') { should cmp input('tomcat_server_info').to_s }
   end
 end

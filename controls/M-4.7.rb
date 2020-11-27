@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-4.7" do
-  title "4.7 Restrict access to Tomcat web application directory (Scored)"
+# frozen_string_literal: true
+
+control 'M-4.7' do
+  title '4.7 Restrict access to Tomcat web application directory (Scored)'
   desc  "The Tomcat $CATALINA_HOME/webapps directory contains web applications
 that are deployed through Tomcat. It is recommended that the ownership of this
 directory be tomcat_admin:tomcat. It is also recommended that the permission on
@@ -9,9 +10,9 @@ and prevent write access to the group (g-w). Restricting access to these
 directories will prevent local users from maliciously or inadvertently
 affecting the integrity of web applications. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "4.7"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '4.7'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to determine if the ownership and
 permissions on
@@ -37,8 +38,8 @@ tomcat_admin:tomcat. Remove read, write, and execute permissions for the world.
 770."
 
   describe directory("#{input('tomcat_home')}/webapps") do
-    its('owner') { should cmp "#{input('tomcat_owner')}" }
-    its('group') { should cmp "#{input('tomcat_group')}" }
+    its('owner') { should cmp input('tomcat_owner').to_s }
+    its('group') { should cmp input('tomcat_group').to_s }
     its('mode') { should cmp '0750' }
   end
 end

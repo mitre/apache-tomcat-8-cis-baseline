@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-4.6" do
-  title "4.6 Restrict access to Tomcat binaries directory (Scored)"
+# frozen_string_literal: true
+
+control 'M-4.6' do
+  title '4.6 Restrict access to Tomcat binaries directory (Scored)'
   desc  "The Tomcat $CATALINA_HOME/bin/ directory contains executes that are
 part of the Tomcat run-time. It is recommended that the ownership of this
 directory be tomcat_admin:tomcat. It is also recommended that the permission on
@@ -9,9 +10,9 @@ prevent write access to the group (g-w). Restricting access to these
 directories will prevent local users from maliciously or inadvertently
 affecting the integrity of Tomcat processes. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "4.6"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '4.6'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Perform the following to determine if the ownership and
 permissions on
@@ -35,8 +36,8 @@ read, write, and execute permissions for the world
 770."
 
   describe directory("#{input('tomcat_home')}/bin") do
-    its('owner') { should cmp "#{input('tomcat_owner')}" }
-    its('group') { should cmp "#{input('tomcat_group')}" }
+    its('owner') { should cmp input('tomcat_owner').to_s }
+    its('group') { should cmp input('tomcat_group').to_s }
     its('mode') { should cmp '0750' }
   end
 end

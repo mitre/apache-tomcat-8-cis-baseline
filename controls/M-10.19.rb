@@ -1,5 +1,6 @@
-# -*- encoding : utf-8 -*-
-control "M-10.19" do
+# frozen_string_literal: true
+
+control 'M-10.19' do
   title "10.19 use the logEffectiveWebXml and metadata-complete settings for
 deploying applications in production (Scored)"
   desc  "Both Fragments and annotations give rise to security concerns. web.xml
@@ -20,9 +21,9 @@ able to see if that is in fact what you actually want. Enable
 2.
 https://alexismp.wordpress.com/2010/07/28/servlet-3-0-fragments-and-webxml-to-rule-them-all/
  Appendix: Summary Table "
-  tag "severity": "medium"
-  tag "cis_id": "10.19"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '10.19'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "1. Review each application’s web.xml file located in the
 applications
@@ -68,17 +69,14 @@ true
 of false is used; If metadatacomplete not specified, the default value of false
 is used\n"
 
-  begin
-
   web_xml = command("ls #{input('tomcat_app_dir')}/webapps/*/WEB-INF/web.xml").stdout.split.each do |web_file|
     describe xml(web_file) do
       its('web-app/attribute::metadata-complete') { should eq ['true'] }
     end
-  context_xml = command("ls #{input('tomcat_app_dir')}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
-    describe xml(web_file) do
-      its('web-app/attribute::logEffectiveWebXml') { should eq ['true'] }
+    context_xml = command("ls #{input('tomcat_app_dir')}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
+      describe xml(web_file) do
+        its('web-app/attribute::logEffectiveWebXml') { should eq ['true'] }
+      end
     end
   end
-  end
-end
 end

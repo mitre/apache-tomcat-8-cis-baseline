@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-10.17" do
-  title "10.17 Enable memory leak listener (Scored)"
+# frozen_string_literal: true
+
+control 'M-10.17' do
+  title '10.17 Enable memory leak listener (Scored)'
   desc  "The JRE Memory Leak Prevention Listener provides a work-around for
 known places where the Java Runtime environment uses the context class loader
 to load a singleton as this will cause a memory leak if a web application class
@@ -13,9 +14,9 @@ memory leak. "
   impact 0.5
   tag "ref": "1.
 https://tomcat.apache.org/tomcat-8.0doc/config/listeners.html#JRE_Memory_Leak_Prevention_Listener__org.apache.catalina.core.JreMemoryLeakPreventionListener"
-  tag "severity": "medium"
-  tag "cis_id": "10.17"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '10.17'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Review the $CATALINA_HOME/conf/server.xml and see whether
 JRE Memory Leak
@@ -27,9 +28,7 @@ $CATALINA_HOME/conf/server.xml
 />
 "
 
-  begin
-    describe xml(input('tomcat_conf_server')) do
-      its('Server/Listener/attribute::className') { should include 'org.apache.catalina.core.JreMemoryLeakPreventionListener' }
-    end
+  describe xml(input('tomcat_conf_server')) do
+    its('Server/Listener/attribute::className') { should include 'org.apache.catalina.core.JreMemoryLeakPreventionListener' }
   end
 end

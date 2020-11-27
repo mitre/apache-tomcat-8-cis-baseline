@@ -1,4 +1,4 @@
-# -*- encoding : utf-8 -*-
+# frozen_string_literal: true
 
 require 'inspec/utils/file_reader'
 require 'inspec/utils/simpleconfig'
@@ -23,6 +23,7 @@ class TomcatPropFile < Inspec.resource(1)
     @conf_file = properties_file
     return skip_resource 'You must provide a path to the Tomcat Properites file' if @conf_file.nil?
     return skip_resource "Can't find file #{@conf_file}" unless @conf_file.file?
+
     @content = ''
     @params = {}
     read_content
@@ -38,9 +39,7 @@ class TomcatPropFile < Inspec.resource(1)
 
     raw_conf = file.content
 
-    if raw_conf.empty? && !file.empty?
-      return skip_resource("Can't read the contents of \"#{@conf_file}\"")
-    end
+    return skip_resource("Can't read the contents of \"#{@conf_file}\"") if raw_conf.empty? && !file.empty?
 
     props = read_file_content(config_file).gsub(/\\\r?\n/, '')
     cfg = SimpleConfig.new(props)

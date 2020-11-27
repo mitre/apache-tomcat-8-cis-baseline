@@ -1,5 +1,6 @@
-# -*- encoding : utf-8 -*-
-control "M-10.1" do
+# frozen_string_literal: true
+
+control 'M-10.1' do
   title "10.1 Ensure Web content directory is on a separate partition from the
 Tomcat system files (Not Scored)"
   desc  "Store web content on a separate partition from Tomcat system files.
@@ -12,9 +13,9 @@ introduced in the future. Moving your web document directory onto a different
 partition will prevent these kinds of attacks from doing more damage to other
 part of the file system. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "10.1"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '10.1'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 1
   desc 'check', "Locate the Tomcat system files and web content directory.
 Review the system partitions
@@ -29,14 +30,12 @@ here.
 tomcat system files and update
 your configuration.
 "
-  desc 'default value', "Not Applicable"
+  desc 'default value', 'Not Applicable'
 
-  begin
-    tomcat_system = command("df #{input('tomcat_home')}").stdout.split[7]
-    tomcat_web = command("df #{input('tomcat_home')}/webapps").stdout.split[7]
+  tomcat_system = command("df #{input('tomcat_home')}").stdout.split[7]
+  tomcat_web = command("df #{input('tomcat_home')}/webapps").stdout.split[7]
 
-    describe tomcat_web do
-      it { should_not cmp tomcat_system }
-    end
+  describe tomcat_web do
+    it { should_not cmp tomcat_system }
   end
 end

@@ -1,14 +1,15 @@
-# -*- encoding : utf-8 -*-
-control "M-1.1" do
-  title "1.1 Remove extraneous files and directories (Scored)"
+# frozen_string_literal: true
+
+control 'M-1.1' do
+  title '1.1 Remove extraneous files and directories (Scored)'
   desc  "The installation may provide example applications, documentation, and
 other directories which may not serve a production use. Removing sample
 resources is a defense in depth measure that reduces potential exposures
 introduced by these resources. "
   impact 0.5
-  tag "severity": "medium"
-  tag "cis_id": "1.1"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '1.1'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Perform the following to determine the existence of
 extraneous resources:
@@ -30,7 +31,7 @@ $CATALINA_HOME/conf/Catalina/localhost/manager.xml
   desc 'default value', "\"docs\", \"examples\", \"manager\" and
 \"host-manager\" are default web applications shipped\nwith Tomcat."
 
-  "#{input('tomcat_extraneous_resource_list')}".each do |app|
+  input('tomcat_extraneous_resource_list').to_s.each do |app|
     describe command("ls -l #{input('tomcat_home')}/#{app}") do
       its('stdout.strip') { should eq '' }
     end

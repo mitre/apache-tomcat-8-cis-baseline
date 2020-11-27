@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-10.5" do
-  title "10.5 Rename the manager application (Scored)"
+# frozen_string_literal: true
+
+control 'M-10.5' do
+  title '10.5 Rename the manager application (Scored)'
   desc  "The manager application allows administrators to manage Tomcat
 remotely via a web interface. The manager application should be renamed to make
 it harder for attackers or automated scripts to locate. Obscurity can be
@@ -8,10 +9,10 @@ helpful when used with other security measures. By relocating the manager
 applications, an attacker will need to guess its location rather than simply
 navigate to the standard location in order to carry out an attack. "
   impact 0.5
-  tag "ref": "1. https://www.owasp.org/index.php/Securing_tomcat"
-  tag "severity": "medium"
-  tag "cis_id": "10.5"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "ref": '1. https://www.owasp.org/index.php/Securing_tomcat'
+  tag "severity": 'medium'
+  tag "cis_id": '10.5'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Ensure $CATALINA_HOME/conf/Catalina/localhost/manager.xml,
 
@@ -31,19 +32,17 @@ $CATALINA_HOME/webapps/newname
   desc 'default value', "The default name of the manager application is
 “manager\" and is located at:\n$CATALINA_HOME/webapps/manager\n\n"
 
-  begin
-    man_dir = command("find #{input('tomcat_home')}/webapps/ -name manager")
-    man_xml = command("find #{input('tomcat_home')}/webapps/ -name manager.xml")
-    man_local_xml = command("find #{input('tomcat_home')}/conf/Catalina/localhost/ - name manager.xml")
+  man_dir = command("find #{input('tomcat_home')}/webapps/ -name manager")
+  man_xml = command("find #{input('tomcat_home')}/webapps/ -name manager.xml")
+  man_local_xml = command("find #{input('tomcat_home')}/conf/Catalina/localhost/ - name manager.xml")
 
-    describe man_dir do
-      its('stdout') { should_not include 'manager'}
-    end
-    describe man_xml do
-      its('stdout') { should_not include 'manager.xml'}
-    end
-    describe man_local_xml do
-      its('stdout') { should_not include 'manager.xml'}
-    end
+  describe man_dir do
+    its('stdout') { should_not include 'manager' }
+  end
+  describe man_xml do
+    its('stdout') { should_not include 'manager.xml' }
+  end
+  describe man_local_xml do
+    its('stdout') { should_not include 'manager.xml' }
   end
 end

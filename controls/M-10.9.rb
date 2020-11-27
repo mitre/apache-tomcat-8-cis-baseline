@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-10.9" do
-  title "10.9 Do not allow custom header status messages (Scored)"
+# frozen_string_literal: true
+
+control 'M-10.9' do
+  title '10.9 Do not allow custom header status messages (Scored)'
   desc  "Being able to specify custom status messages opens up the possibility
 for additional headers to be injected. If custom header status messages are
 required, make sure it is only in US-ASCII and does not include any
@@ -9,9 +10,9 @@ possibility of XSS. "
   impact 0.5
   tag "ref": "1.
 http://tomcat.apache.org/tomcat-8.0-doc/config/systemprops.html"
-  tag "severity": "medium"
-  tag "cis_id": "10.9"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '10.9'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Ensure the above parameter is added to the startup script
 which by default is located at
@@ -25,11 +26,9 @@ to your startup script.
   desc 'default value', "By default, allowing custom header status messages is
 set to false.\n"
 
-  begin
-    cat_prop = tomcat_properties_file.read_content("#{input('tomcat_home')}/conf/catalina.properties")
+  cat_prop = tomcat_properties_file.read_content("#{input('tomcat_home')}/conf/catalina.properties")
 
-    describe cat_prop['org.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER'] do
-      it { should cmp 'false' }
-    end
+  describe cat_prop['org.apache.coyote.USE_CUSTOM_STATUS_MSG_IN_HEADER'] do
+    it { should cmp 'false' }
   end
 end

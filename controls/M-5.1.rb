@@ -1,6 +1,7 @@
-# -*- encoding : utf-8 -*-
-control "M-5.1" do
-  title "5.1 Use secure Realms (Scored)"
+# frozen_string_literal: true
+
+control 'M-5.1' do
+  title '5.1 Use secure Realms (Scored)'
   desc  "A realm is a database of usernames and passwords used to identify
 valid users of web applications. Review the Realms configuration to ensure
 Tomcat is configured to use JDBCRealm, UserDatabaseRealm, or JAASRealm.
@@ -12,9 +13,9 @@ code is not as mature as the other realms. "
   impact 0.5
   tag "ref": "1. http://tomcat.apache.org/tomcat-8.0-doc/realm-howto.html 2.
 https://tomcat.apache.org/tomcat-8.0-doc/security-howto.html"
-  tag "severity": "medium"
-  tag "cis_id": "5.1"
-  tag "cis_control": ["No CIS Control", "6.1"]
+  tag "severity": 'medium'
+  tag "cis_id": '5.1'
+  tag "cis_control": ['No CIS Control', '6.1']
   tag "cis_level": 2
   desc 'check', "Perform the following to ensure improper realm is not in
 use:
