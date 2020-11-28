@@ -1,0 +1,23 @@
+---
+tomcat_home: "/usr/local/tomcat"
+tomcat_base: "/usr/local/tomcat"
+tomcat_app_dir: "/usr/local/tomcat/webapps"
+tomcat_conf_server: "/usr/local/tomcat/conf/server.xml"
+tomcat_conf_web: "/usr/local/tomcat/conf/web.xml"
+tomcat_logs: "/usr/local/tomcat/logs"
+tomcat_owner: "tomcat"
+tomcat_group: "tomcat"
+tomcat_service_name: "tomcat"
+tomcat_server_number: "server.number=8.5.60.0"
+tomcat_server_info: "server.info=Apache Tomcat/8.5.60"
+tomcat_server_built: "server.built=Oct 30 2017 10:21:55 UTC"
+tomcat_extraneous_resource_list:
+  - "webapps/docs"
+  - "webapps/examples"
+  - "webapps/host-manager"
+  - "webapps/manager"
+tomcat_realms_list:
+  - "org.apache.catalina.realm.MemoryRealm"
+  - "org.apache.catalina.realm.JDBCRealm"
+  - "org.apache.catalina.realm.UserDatabaseRealm"
+  - "org.apache.catalina.realm.JAASRealm"

@@ -37,11 +37,19 @@ periods and
 other regular expression meta-characters must be escaped.
 "
   desc 'default value', "By default, this setting is not present\n"
-
-  manager_xml = command('find /usr/share/tomcat/conf/ -name manager.xml').stdout.split.each do |man_xml|
-    describe xml(man_xml) do
-      its('Context/Valve/attribute::className') { should include 'org.apache.catalina.valves.RemoteAddrValve' }
-      its('Context/Valve/attribute::allow') { should_not cmp [] }
+ 
+  unless command("find #{input('tomcat_home')}/conf/ -name manager.xml").stdout.empty?
+    manager_xml = command("find #{input('tomcat_home')}/conf/ -name manager.xml").stdout.split.each do |man_xml|
+      describe xml(man_xml) do
+        its('Context/Valve/attribute::className') { should include 'org.apache.catalina.valves.RemoteAddrValve' }
+        its('Context/Valve/attribute::allow') { should_not cmp [] }
+      end
+    end
+  else
+    describe "No manager.xml files were found in #{input('tomcat_home')}" do
+      skip "No manager.xml files were found in your tomcat config at #{input('tomcat_home')}/conf. Manually review 
+      that the Manager Application is only accessable to those requiring access to the application"
     end
   end
 end
+

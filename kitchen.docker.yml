@@ -1,0 +1,52 @@
+---
+  driver:
+    name: docker
+    use_sudo: false
+    privileged: true
+  
+  transport:
+    name: docker
+  
+  # provisioner:
+  #   name: ansible_playbook
+  #   hosts: all
+  #   require_ansible_repo: false
+  #   require_ansible_omnibus: true
+  #   require_chef_for_busser: false
+  #   require_ruby_for_busser: false
+  #   ansible_verbose: true
+  #   roles_path: spec/ansible/couchbase-hardening
+  #   galaxy_ignore_certs: true
+  
+  verifier:
+    name: inspec
+    sudo: true
+    load_plugins: true
+    inspec_tests:
+      - path: ./
+    input_files:
+      - inputs.docker.yml
+  
+  platforms:
+    - name: tomcat8-jdk15-openjdk
+      driver_config:
+        image: tomcat:8-jdk15-openjdk-slim
+        platform: ubuntu
+        run_command: /sbin/init
+     
+  suites:
+    - name: hardened
+      # provisioner:
+      #   playbook: spec/ansible/couchbase-hardening/hardening-playbook.yml
+      verifier:
+        reporter:
+          - cli
+          - json:spec/results/%{platform}-hardened-test-result.json
+  
+    - name: vanilla
+      # provisioner:
+      #   playbook: spec/ansible/couchbase-hardening/vanilla-playbook.yml
+      verifier:
+        reporter:
+          - cli
+          - json:spec/results/%{platform}-vanilla-test-result.json

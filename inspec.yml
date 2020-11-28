@@ -14,6 +14,11 @@ inputs:
     description: "location of tomcat home directory"
     value: "/usr/share/tomcat"
 
+  - name: tomcat_port
+    type: Numeric
+    description: 'the port tomcat is running on'
+    value: 8084
+
   - name: tomcat_base
     type: String
     description: "location of tomcat home directory"

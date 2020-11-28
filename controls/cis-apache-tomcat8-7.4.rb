@@ -35,7 +35,7 @@ tomcat_admin:tomcat with permissions of o-rwx.
   context_xml = command("ls #{input('tomcat_home')}/webapps/*/META-INF/context.xml").stdout.split.each do |web_file|
     describe xml(web_file) do
       its('Context/Valve/attribute::className') { should include 'org.apache.catalina.valves.AccessLogValve' }
-      its('Context/Valve/attribute::directory') { should cmp '$CATALINA_HOME/logs/' }
+      its('Context/Valve/attribute::directory') { should cmp "#{input('tomcat_home')}/logs/" }
       its('Context/Valve/attribute::prefix') { should cmp 'access_log' }
       its('Context/Valve/attribute::fileDateFormat') { should cmp 'yyyy-Mcis-apache-tomcat8-dd.HH' }
       its('Context/Valve/attribute::suffix') { should cmp '.log' }
@@ -43,8 +43,8 @@ tomcat_admin:tomcat with permissions of o-rwx.
     end
   end
   describe directory("#{input('tomcat_home')}/logs") do
-    its('group') { should cmp 'tomcat' }
-    its('owner') { should cmp 'tomcat_admin' }
-    its('mode') { should cmp '0770' }
+    its('group') { should cmp input('tomcat_group') }
+    its('owner') { should cmp input('tomcat_admin') }
+    it { should_not be_more_permissive_than('0770') }
   end
 end
