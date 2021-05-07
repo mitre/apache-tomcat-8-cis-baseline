@@ -1,40 +1,125 @@
-# Example InSpec Profile
+# apache-tomcat-8-cis-baseline
 
-(WIP) InSpec profile for CIS Apache Tomcat v8 Benchmark helps you validate your Tomcat install to the CIS Benchmark recomendations.
+InSpec Profile to validate the secure configuration of apache-tomcat-8-cis-baseline, against [CIS'](https://www.cisecurity.org/cis-benchmarks/) Apache Tomcat v8 Benchmark
 
-## Versioning and State of Development
-This project uses the [Semantic Versioning Policy](https://semver.org/). 
+## Getting Started  
+It is intended and recommended that InSpec run this profile from a __"runner"__ host (such as a DevOps orchestration server, an administrative management system, or a developer's workstation/laptop) against the target remotely over __ssh__.
 
-### Branches
-The master branch contains the latest version of the software leading up to a new release. 
+The latest versions and installation options are available at the [InSpec](http://inspec.io/) site.
 
-Other branches contain feature-specific updates. 
+## Tailoring to Your Environment
+The following inputs must be configured in an inputs ".yml" file for the profile to run correctly for your specific environment. More information about InSpec inputs can be found in the [InSpec Profile Documentation](https://www.inspec.io/docs/reference/profiles/).
 
-### Tags
-Tags indicate official releases of the project.
+```yaml
+# Description: Tomcat home Directory
+tomcat_home: ''
 
-Please note 0.x releases are works in progress (WIP) and may change at any time.   
+# Description: Tomcat Directory for additional servers
+tomcat_base: ''
 
-#### NOTE
-##### There be dragons
+# Description: Tomcat App Directory
+tomcat_app_dir: ''
 
-The controls **still use** the `xml` resource and function correctly but **help / interest welcome** on completing the `tomcat_*` resources (see the start in the [libraries](./libraries/) directory) in the *other branches* off `master`.
+# Description: Tomcat library Directory
+tomcat_lib_dir: ''
 
-#### ALPHA: Custom Tomcat Resources
+# Description: Tomcat service Name
+tomcat_service_name: ''
 
-Our current implamentation in the controls use the InSpec `xml` resource which is a bit complicated but works fine. 
+# Description: Tomcat username
+tomcat_user: ''
 
-We are working on moving to a custom set of `tomcat_*` resources for much clearner and more direct InSpec controls. 
+# Description: Port of the tomcat instance
+tomcat_port: ''
 
-***the custom `tomcat_*` resource is in very early alpha not yet complete and is not complete***
+# Description: Server Info value
+tomcat_server_info: ''
 
-## NOTICE  
+# Description: Server Number value
+tomcat_server_number: ''
 
-© 2018 The MITRE Corporation.  
+# Description: Server Built value
+tomcat_server_built: ''
 
-Approved for Public Release; Distribution Unlimited. Case Number 18-3678.   
+# Description: Tomcat server configuration file
+tomcat_conf_server: ''
+
+# Description: Tomcat web configuration file
+tomcat_conf_web: ''
+
+# Description: Group owner of files/directories
+tomcat_group: ''
+
+# Description: User owner of files/directories
+tomcat_owner: ''
+
+# Description: A list of Realms that should not be enabled
+tomcat_realms_list: []
+
+# Description: List of extraneous resources that should not exist
+tomcat_extraneous_resource_list: []
+```
+
+# Running This Baseline Directly from Github
+
+```
+# How to run
+inspec exec https://github.com/mitre/apache-tomcat-8-cis-baseline/archive/master.tar.gz -t ssh:// --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
+```
+
+### Different Run Options
+
+  [Full exec options](https://docs.chef.io/inspec/cli/#options-3)
+
+## Running This Baseline from a local Archive copy 
+
+If your runner is not always expected to have direct access to GitHub, use the following steps to create an archive bundle of this baseline and all of its dependent tests:
+
+(Git is required to clone the InSpec profile using the instructions below. Git can be downloaded from the [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) site.)
+
+When the __"runner"__ host uses this profile baseline for the first time, follow these steps: 
+
+```
+mkdir profiles
+cd profiles
+git clone https://github.com/mitre/apache-tomcat-8-cis-baseline
+inspec archive apache-tomcat-8-cis-baseline
+inspec exec <name of generated archive> -t ssh:// --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
+```
+For every successive run, follow these steps to always have the latest version of this baseline:
+
+```
+cd apache-tomcat-8-cis-baseline
+git pull
+cd ..
+inspec archive apache-tomcat-8-cis-baseline --overwrite
+inspec exec <name of generated archive> -t ssh:// --input-file=<path_to_your_inputs_file/name_of_your_inputs_file.yml> --reporter=cli json:<path_to_your_output_file/name_of_your_output_file.json>
+```
+
+## Viewing the JSON Results
+
+The JSON results output file can be loaded into __[heimdall-lite](https://heimdall-lite.mitre.org/)__ for a user-interactive, graphical view of the InSpec results. 
+
+The JSON InSpec results file may also be loaded into a __[full heimdall server](https://github.com/mitre/heimdall)__, allowing for additional functionality such as to store and compare multiple profile runs.
+
+## Authors
+* Mohamed El-Sharkawi - [HackerShark](https://github.com/HackerShark)
+* Craig Chaffee
+
+## Special Thanks 
+* Shivani Karikar - [karikarshivani](https://github.com/karikarshivani)
+
+## Contributing and Getting Help
+To report a bug or feature request, please open an [issue](https://github.com/mitre/apache-tomcat-8-cis-baseline/issues/new).
+
+### NOTICE
+
+© 2018-2020 The MITRE Corporation.
+
+Approved for Public Release; Distribution Unlimited. Case Number 18-3678.
 
 ## NOTICE
+
 MITRE hereby grants express written permission to use, reproduce, distribute, modify, and otherwise leverage this software to the extent permitted by the licensed terms provided in the LICENSE.md file included with this project.
 
 ## NOTICE  
