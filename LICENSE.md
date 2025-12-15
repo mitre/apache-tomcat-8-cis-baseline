@@ -48,6 +48,7 @@ Source Materials license. MITRE's license also does not grant licensee
 rights to the Open Source Materials that supersede the terms and
 conditions of the Open Source Materials license.
 
+
 ## Notice
 
 MITRE grants permission to reproduce, distribute, modify, and otherwise
